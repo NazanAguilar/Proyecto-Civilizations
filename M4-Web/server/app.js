@@ -101,6 +101,7 @@ app.get('/batallas', async (req, res) => {
     const batallasID = parseInt(req.query.id, 10)
 
     // Obtenir les dades de la base de dades
+    const Total = await db.query(`select count(*) div 2 as Total from battle_stats;`);
 
     const batallasRows = await db.query(`
       select bs.civilization_id as ID_Civ,
@@ -114,11 +115,13 @@ app.get('/batallas', async (req, res) => {
       order by bs.id_battle,bs.civilization_id;`);
 
     // Transformar les dades a JSON (per les plantilles .hbs)
-    const batallasJson = db.table_to_json(batallasRows, {Nombre: 'string', ID_Bat: 'number', Madera_conseguida: 'number', Hierro_conseguida: 'number', ID_Civ_Enem: 'number'});
+    const batallasJson = db.table_to_json(batallasRows, {Nombre: 'string', ID_Bat: 'number', Madera_conseguida: 'number', Hierro_conseguido: 'number', ID_Civ_Enem: 'number'});
 
        // Construir l'objecte de dades per a la plantilla
     const data = {
       batallas: batallasJson,
+      Total: Total[0].Total
+
        };
 
     // Renderitzar la plantilla amb les dades
