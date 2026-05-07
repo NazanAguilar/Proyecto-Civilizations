@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  {{> header}}
+  <title>Batallas-Civilization(MNR)</title>
+</head>
+<body>
+  {{> menu}}
+
+  <main class="container">
+    <h1>Civilization (MNR)</h1>
+    <h2>Batallas</h2>
+
+    <p>Informació actualitzada de la base de dades</p>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID Civilizacion</th>
+          <th>Nombre</th>
+          <th>ID Batalla</th>
+          <th>Madera Conseguida</th>
+          <th>Hierro Conseguido</th>
+          <th>ID Civ Enemiga</th>
+          <th>Consultar</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each batallas}}
+          <tr>
+            <td>{{ID_Civ}}</td>
+            <td>{{Nombre}}</td>
+            <td>{{ID_Bat}}</td>
+            <td>{{Madera_conseguida}}</td>
+            <td>{{Hierro_conseguido}}</td>
+            <td>{{ID_Civ_Enem}}</td>
+            <td><a class="consultar" href="/batallasEdit?id={{this.ID_Bat}}"> -> Consultar</a></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </main>
+
+  {{> footer}}
+</body>
+</html>

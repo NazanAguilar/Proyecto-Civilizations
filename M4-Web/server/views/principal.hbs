@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  {{> header}}
+  <link rel="stylesheet" href="index.css">
+  <title>Inicio-Civilization(MNR)</title>
+</head>
+<body>
+  {{> menu}}
+
+  <main class="container">
+    <h1>Civilization (MNR)</h1>
+    <h2>Principal</h2>
+    <section class="cols-2">
+      <article class="card">
+        <h3>Información del juego</h3>
+        <p class="info_juego">En nuestra aplicación, vamos a estar al mando de una pequeña civilización. Dispondremos de
+            recursos, tecnologías, edificios, defensas y unidades tanto de ataque como defensa.
+            Desgraciadamente, no vamos a poder vivir tranquilos, dado que hay otras civilizaciones que quieren
+            conquistarnos i que nos van a atacar constantemente. Ésto nos va a obligar a cuidar las defensas de
+            nuestra civilización para defendernos de los ataques continuos.</p>
+        <br>
+        <h3>Capturas de pantalla</h3>
+        <br>
+        <div class="galeria">
+              <img class="foto" src="./imatges/image1.jpeg" width="400px" height="300px">
+              <img class="foto" src="./imatges/image2.jpg" width="400px" height="300px">
+        </div>
+        <div class="galeria">
+              <img class="foto" src="./imatges/image3.webp" width="400px" height="300px">
+              <img class="foto" src="./imatges/image4.webp" width="400px" height="300px">
+        </div>
+          </tbody>
+        </table>
+        <br>
+        <h3>Las dos últimas batallas</h3>
+        <br>
+        <table class="table">
+      <thead>
+        <tr>
+          <th>ID Civilizacion</th>
+          <th>Nombre</th>
+          <th>ID Batalla</th>
+          <th>Madera Conseguida</th>
+          <th>Hierro Conseguido</th>
+          <th>ID Civ Enemiga</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each batallas}}
+          <tr>
+            <td>{{ID_Civ}}</td>
+            <td>{{Nombre}}</td>
+            <td>{{ID_Bat}}</td>
+            <td>{{Madera_conseguida}}</td>
+            <td>{{Hierro_conseguido}}</td>
+            <td>{{ID_Civ_Enem}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+        <br>
+      </article>
+    </section>
+  </main>
+
+  {{> footer}}
+</body>
+</html>

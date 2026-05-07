@@ -1,0 +1,175 @@
+/* Fuente estilo clásico */
+body {
+  font-family: "Georgia", serif;
+  font-size: 1.1em;
+  background: url("https://www.transparenttextures.com/patterns/aged-paper.png");
+  background-color: #e6d3a3;
+  color: #2c1b0f;
+  margin: 0;
+}
+
+/* Títulos */
+h1, h2 {
+  text-align: center;
+  color: #5a3e1b;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+h3 {
+  color: #6b4c1e;
+  border-bottom: 2px solid #b89b5e;
+  padding-bottom: 5px;
+}
+
+.consultar {
+  color: brown;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.consultar:visited,
+.consultar:hover,
+.consultar:active {
+color: brown;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Tarjetas tipo panel */
+.card {
+  background: rgba(255, 248, 220, 0.9);
+  border: 2px solid #b89b5e;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Galería */
+.galeria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.galeria img {
+  max-width: 100%;
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+  border: 3px solid #8b6f3d;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
+
+.galeria img:hover {
+  transform: scale(1.05);
+}
+
+/* Tablas estilo “registro imperial” */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #f5e6c8;
+}
+
+th {
+  background-color: #8b6f3d;
+  color: white;
+  padding: 10px;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 8px;
+  border: 1px solid #8b6f3d;
+}
+
+tr:nth-child(even) {
+  background-color: #ecd8a6;
+}
+
+/* Navegación */
+nav {
+  background-color: #5a3e1b;
+  border-top: 3px solid #b89b5e;
+  border-bottom: 3px solid #b89b5e;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 10px;
+  gap: 20px;
+}
+
+nav a {
+  color: #f5e6c8;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #ffd700;
+}
+
+/* Botón volver */
+.volver {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: #8b6f3d;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.volver:hover {
+  background-color: #b89b5e;
+}
+
+/* Texto */
+.info_juego {
+  text-align: justify;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* opcional: mejora visual del scroll */
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #8b6f3d;
+  border-radius: 4px;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    margin: 10px;
+  }
+
+  .galeria img {
+    width: 100%;
+  }
+
+  table {
+    font-size: 0.8em;
+  }
+}
