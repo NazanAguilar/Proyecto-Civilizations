@@ -9,7 +9,7 @@
   {{> menu}}
 
   <main class="container">
-    <h1>Civilization (MNR)</h1>
+    <h1>Civilization (MNR) </h1>
     <h2>Principal</h2>
     <section class="cols-2">
       <article class="card">
@@ -26,6 +26,7 @@
               <img class="foto" src="./imatges/image1.jpeg" width="400px" height="300px">
               <img class="foto" src="./imatges/image2.jpg" width="400px" height="300px">
         </div>
+        <br>
         <div class="galeria">
               <img class="foto" src="./imatges/image3.webp" width="400px" height="300px">
               <img class="foto" src="./imatges/image4.webp" width="400px" height="300px">
@@ -35,32 +36,31 @@
         <br>
         <h3>Las dos últimas batallas</h3>
         <br>
-        <table class="table">
-      <thead>
-        <tr>
-          <th>ID Civilizacion</th>
-          <th>Nombre</th>
-          <th>ID Batalla</th>
-          <th>Madera Conseguida</th>
-          <th>Hierro Conseguido</th>
-          <th>ID Civ Enemiga</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {{#each batallas}}
-          <tr>
-            <td>{{ID_Civ}}</td>
-            <td>{{Nombre}}</td>
-            <td>{{ID_Bat}}</td>
-            <td>{{Madera_conseguida}}</td>
-            <td>{{Hierro_conseguido}}</td>
-            <td>{{ID_Civ_Enem}}</td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID Civilizacion</th>
+                <th>Nombre</th>
+                <th>ID Batalla</th>
+                <th>Madera Conseguida</th>
+                <th>Hierro Conseguido</th>
+                <th>ID Civ Enemiga</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each batallas}}
+                <tr>
+                  <td>{{ID_Civ}}</td>
+                  <td>{{Nombre}}</td>
+                  <td>{{ID_Bat}}</td>
+                  <td>{{Madera_conseguida}}</td>
+                  <td>{{Hierro_conseguido}}</td>
+                  <td>{{ID_Civ_Enem}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
         <br>
       </article>
     </section>

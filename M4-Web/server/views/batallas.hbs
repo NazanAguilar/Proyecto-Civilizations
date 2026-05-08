@@ -13,33 +13,35 @@
 
     <p>Informació actualitzada de la base de dades</p>
     <div>Total de batallas realizadas: {{Total}}</div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID Civilizacion</th>
-          <th>Nombre</th>
-          <th>ID Batalla</th>
-          <th>Madera Conseguida</th>
-          <th>Hierro Conseguido</th>
-          <th>ID Civ Enemiga</th>
-          <th>Consultar</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {{#each batallas}}
+    <div class="table-container">
+      <table class="table">
+        <thead>
           <tr>
-            <td>{{ID_Civ}}</td>
-            <td>{{Nombre}}</td>
-            <td>{{ID_Bat}}</td>
-            <td>{{Madera_conseguida}}</td>
-            <td>{{Hierro_conseguido}}</td>
-            <td>{{ID_Civ_Enem}}</td>
-            <td><a class="consultar" href="/batallasEdit?id={{this.ID_Bat}}"> -> Consultar</a></td>
+            <th>ID Civilizacion</th>
+            <th>Nombre</th>
+            <th>ID Batalla</th>
+            <th>Madera Conseguida</th>
+            <th>Hierro Conseguido</th>
+            <th>ID Civ Enemiga</th>
+            <th>Consultar</th>
           </tr>
-        {{/each}}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {{#each batallas}}
+            <tr>
+              <td>{{ID_Civ}}</td>
+              <td>{{Nombre}}</td>
+              <td>{{ID_Bat}}</td>
+              <td>{{Madera_conseguida}}</td>
+              <td>{{Hierro_conseguido}}</td>
+              <td>{{ID_Civ_Enem}}</td>
+              <td><a class="consultar" href="/batallasEdit?id={{this.ID_Bat}}"> -> Consultar</a></td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </main>
 
   {{> footer}}

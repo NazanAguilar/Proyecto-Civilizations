@@ -1,8 +1,9 @@
 /* Fuente estilo clásico */
 body {
+  padding-top: 80px;
   font-family: "Georgia", serif;
   font-size: 1.1em;
-  background: url("https://www.transparenttextures.com/patterns/aged-paper.png");
+  background-image: url("imatges/old-map.png");
   background-color: #e6d3a3;
   color: #2c1b0f;
   margin: 0;
@@ -42,7 +43,11 @@ color: brown;
   margin: auto;
   padding: 20px;
 }
-
+.programadores {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.1em;
+}
 /* Tarjetas tipo panel */
 .card {
   background: rgba(255, 248, 220, 0.9);
@@ -99,7 +104,12 @@ tr:nth-child(even) {
 }
 
 /* Navegación */
-nav {
+nav { 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   background-color: #5a3e1b;
   border-top: 3px solid #b89b5e;
   border-bottom: 3px solid #b89b5e;
@@ -121,6 +131,50 @@ nav a {
 
 nav a:hover {
   color: #ffd700;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.menu {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  margin: 0;
+  padding: 10px;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.menu-icon {
+  display: none;
+  font-size: 28px;
+  color: #f5e6c8;
+  cursor: pointer;
+}
+
+.logo {
+  height: 80px;       
+  width: auto;
+  object-fit: contain;
+}
+
+/* Evita que el ul empuje el layout */
+nav ul {
+  margin: 0;
 }
 
 /* Botón volver */
@@ -161,15 +215,40 @@ nav a:hover {
 
 /* Responsive */
 @media (max-width: 768px) {
-  body {
-    margin: 10px;
+
+  .nav-container {
+    justify-content: space-between;
+    padding: 0 15px;
   }
 
-  .galeria img {
+  .menu-icon {
+    display: block;
+  }
+
+  /* Ocultamos menú por defecto */
+  .menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
     width: 100%;
+    background-color: #5a3e1b;
+    border-bottom: 3px solid #b89b5e;
+    text-align: center;
+    z-index: 1000;
   }
 
-  table {
-    font-size: 0.8em;
+  /* Cuando está activado el checkbox */
+  .menu-toggle:checked + .menu-icon + .menu {
+    display: flex;
+  }
+
+  .menu li {
+    padding: 15px 0;
+  }
+
+  .logo {
+    height: 60px;
   }
 }
