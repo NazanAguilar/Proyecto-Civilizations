@@ -1,6 +1,7 @@
 package Proyecte_Civilizations;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 class Battle implements Variables{
 
@@ -194,16 +195,35 @@ class Battle implements Variables{
 
     
     //Metodos creados 
-    public String getBattleReport(int battles) {
-        return "";
-    }
 
     public String getBattleDevelopment() {
-        return "";
+        return battleDevelopment;
+    }
+    
+    public String getBattleReport(int battles) {
+
+        String r = "===== REPORTE DE BATALLA " + battles + " =====\n";
+
+        r += "Unidades eliminadas civilización: " + civilizationDrops + "\n";
+        r += "Unidades eliminadas enemigo: " + enemyDrops + "\n";
+
+        r += "\nPérdidas civilización (comida, madera, hierro, ponderado):\n";
+        r += resourceLooses[0][0] + " | " + resourceLooses[0][1] + " | " +
+             resourceLooses[0][2] + " | " + resourceLooses[0][3] + "\n";
+
+        r += "\nPérdidas enemigo (comida, madera, hierro, ponderado):\n";
+        r += resourceLooses[1][0] + " | " + resourceLooses[1][1] + " | " +
+             resourceLooses[1][2] + " | " + resourceLooses[1][3] + "\n";
+
+        r += "\nResiduos generados (madera, hierro):\n";
+        r += wasteWoodIron[0] + " | " + wasteWoodIron[1] + "\n";
+
+        return r;
     }
 
     
     public void initInitialArmies() {
+    	
     	
     }
     
@@ -331,6 +351,7 @@ class Battle implements Variables{
     	lista[1] = initialNumberUnitsEnemy;
 		return lista;
     }
+    
     public int[] remainderPercentageFleet() {
     	int[]lista;
     	lista = new int[2];
@@ -346,16 +367,13 @@ class Battle implements Variables{
     }
     public int getGroupDefenderCivilization() {
 
-        int grupo = -1;
         int sumaTotal = 0;
 
         for(int i = 0; i < 9; i++) {
             sumaTotal += actualNumberUnitsCivilization[i];
         }
 
-        if(sumaTotal == 0) {
-            return -1;
-        }
+        if (sumaTotal == 0) return 0;
 
         int numAleatorio = (int)(Math.random() * sumaTotal) + 1;
 
@@ -364,25 +382,24 @@ class Battle implements Variables{
         for(int i = 0; i < 9; i++) {
             acumulado += actualNumberUnitsCivilization[i];
             if(acumulado >= numAleatorio) {
-                grupo = i;
-                break;
+                if (actualNumberUnitsCivilization[i] > 0) {
+                	return i;
+                } 
             }
         }
 
-        return grupo;
+        return 0;
     }
+    
     public int getGroupDefenderEnemy() {
 
-        int grupo = -1;
         int sumaTotal = 0;
 
         for(int i = 0; i < 9; i++) {
             sumaTotal += actualNumberUnitsEnemy[i];
         }
 
-        if(sumaTotal == 0) {
-            return -1;
-        }
+        if (sumaTotal == 0) return 0;
 
         int numAleatorio = (int)(Math.random() * sumaTotal) + 1;
 
@@ -391,62 +408,111 @@ class Battle implements Variables{
         for(int i = 0; i < 9; i++) {
             acumulado += actualNumberUnitsEnemy[i];
             if(acumulado >= numAleatorio) {
-                grupo = i;
-                break;
+                if (actualNumberUnitsEnemy[i] > 0) {
+                	return i;
+                } 
             }
         }
 
-        return grupo;
+        return 0;
     }
-
+    
     public int getCivilizationGroupAttacker() {
 
-        int grupo = -1;
         int sumaTotal = 0;
 
-        for(int i = 0; i < 9; i++) {
+        for(int i = 0; i < CHANCE_ATTACK_CIVILIZATION_UNITS.length; i++) {
             sumaTotal += CHANCE_ATTACK_CIVILIZATION_UNITS[i];
         }
 
+        if (sumaTotal == 0) {
+            return 0;
+        }
+
         int numAleatorio = (int)(Math.random() * sumaTotal) + 1;
 
         int acumulado = 0;
 
-        for(int i = 0; i < 9; i++) {
+        for(int i = 0; i < CHANCE_ATTACK_CIVILIZATION_UNITS.length; i++) {
             acumulado += CHANCE_ATTACK_CIVILIZATION_UNITS[i];
             if(acumulado >= numAleatorio) {
-                grupo = i;
-                break;
+            	if(actualNumberUnitsCivilization[i] != 0) {
+                    return i;
+
+            	}
             }
         }
 
-        return grupo;
+        return 0;
     }
-
     public int getEnemyGroupAttacker() {
 
-        int grupo = -1;
         int sumaTotal = 0;
 
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < CHANCE_ATTACK_ENEMY_UNITS.length; i++) {
             sumaTotal += CHANCE_ATTACK_ENEMY_UNITS[i];
         }
 
+        if (sumaTotal == 0) {
+            return 0;
+        }
+
         int numAleatorio = (int)(Math.random() * sumaTotal) + 1;
 
         int acumulado = 0;
 
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < CHANCE_ATTACK_ENEMY_UNITS.length; i++) {
             acumulado += CHANCE_ATTACK_ENEMY_UNITS[i];
             if(acumulado >= numAleatorio) {
-                grupo = i;
-                break;
+            	if(actualNumberUnitsEnemy[i] != 0) {
+                    return i;
+
+            	}
             }
         }
 
-        return grupo;
+        return 0;
     }
+    private int getChanceAttackAgain(MilitaryUnit u) {
 
+        if (u instanceof Swordsam) {
+            return CHANCE_ATTACK_AGAIN_SWORDSMAN;
+        }
+
+        if (u instanceof Spearman) {
+            return CHANCE_ATTACK_AGAIN_SPEARMAN;
+        }
+
+        if (u instanceof Crossbow) {
+            return CHANCE_ATTACK_AGAIN_CROSSBOW;
+        }
+
+        if (u instanceof Cannon) {
+            return CHANCE_ATTACK_AGAIN_CANNON;
+        }
+
+        if (u instanceof ArrowTower) {
+            return CHANCE_ATTACK_AGAIN_ARROWTOWER;
+        }
+
+        if (u instanceof Catapult) {
+            return CHANCE_ATTACK_AGAIN_CATAPULT;
+        }
+
+        if (u instanceof RocketLauncherTower) {
+            return CHANCE_ATTACK_AGAIN_ROCKETLAUNCHERTOWER;
+        }
+
+        if (u instanceof Magician) {
+            return CHANCE_ATTACK_AGAIN_MAGICIAN;
+        }
+
+        if (u instanceof Priest) {
+            return CHANCE_ATTACK_AGAIN_PRIEST;
+        }
+
+        return 0;
+    }
 
 
     
@@ -462,6 +528,273 @@ class Battle implements Variables{
 		}
     	
     }
+    private void addWaste(MilitaryUnit u) {
+
+        if (Math.random() * 100 < u.getChanceGeneratinWaste()) {
+
+            wasteWoodIron[0] += u.getWoodCost();   
+            wasteWoodIron[1] += u.getIronCost();   
+
+            battleDevelopment += ">>> La unidad dejó residuos: +" 
+                                 + u.getWoodCost() + " madera, +" 
+                                 + u.getIronCost() + " hierro.\n";
+        }
+    }
+    
+    private int getNonEmptyGroup(int armyIndex, int initialGroup) {
+
+        // Si el grupo inicial tiene unidades, lo devolvemos
+        if (!armies[armyIndex][initialGroup].isEmpty()) {
+            return initialGroup;
+        }
+
+        // Si está vacío, buscamos otro grupo con unidades
+        for (int i = 0; i < armies[armyIndex].length; i++) {
+            if (!armies[armyIndex][i].isEmpty()) {
+                return i;
+            }
+        }
+
+        // Si no hay ningún grupo con unidades (ejército muerto)
+        return initialGroup;
+    }
+    public void Batalla() {
+
+        int comienzo = (int)(Math.random() * 2) + 1;
+
+        battleDevelopment += "===== INICIO DE LA BATALLA =====\n";
+
+        while (true) {
+
+            int[] porcentajes = remainderPercentageFleet();
+
+            if (porcentajes[0] <= 20 || porcentajes[1] <= 20) {
+                battleDevelopment += ">>> La batalla termina: un ejército tiene menos del 20%\n";
+                break;
+            }
+
+            // ================= CIVILIZACIÓN ATACA =================
+            if (comienzo == 1) {
+
+                int grupoAtacante = getCivilizationGroupAttacker();
+                int grupoDefensor = getGroupDefenderEnemy();
+
+                // Asegurar que ambos grupos tengan unidades
+                grupoAtacante = getNonEmptyGroup(0, grupoAtacante);
+                grupoDefensor = getNonEmptyGroup(1, grupoDefensor);
+
+                int idxAtacante = (int)(Math.random() * armies[0][grupoAtacante].size());
+                MilitaryUnit atacante = armies[0][grupoAtacante].get(idxAtacante);
+
+                int idxDefensor = (int)(Math.random() * armies[1][grupoDefensor].size());
+                MilitaryUnit defensor = armies[1][grupoDefensor].get(idxDefensor);
+
+                int daño = atacante.attack();
+                defensor.takeDamage(daño);
+
+                battleDevelopment += "Civilización: " + atacante.getClass().getSimpleName() +
+                                     " ataca a " + defensor.getClass().getSimpleName() +
+                                     " por " + daño + " daño.\n";
+
+                if (defensor.getActualArmor() <= 0) {
+                    enemyDrops++;
+                    addWaste(defensor);
+                    armies[1][grupoDefensor].remove(defensor);
+                    actualNumberUnitsEnemy[grupoDefensor]--;
+                    battleDevelopment += ">>> Unidad enemiga eliminada.\n";
+                }
+
+                int chance = getChanceAttackAgain(atacante);
+
+                if (Math.random() * 100 < chance) {
+
+                    grupoDefensor = getGroupDefenderEnemy();
+                    grupoDefensor = getNonEmptyGroup(1, grupoDefensor);
+
+                    int idxNuevo = (int)(Math.random() * armies[1][grupoDefensor].size());
+                    MilitaryUnit nuevoDefensor = armies[1][grupoDefensor].get(idxNuevo);
+
+                    int dañoExtra = atacante.attack();
+                    nuevoDefensor.takeDamage(dañoExtra);
+
+                    battleDevelopment += "ATAQUE EXTRA de " + atacante.getClass().getSimpleName() +
+                                         " a " + nuevoDefensor.getClass().getSimpleName() +
+                                         " por " + dañoExtra + " daño.\n";
+
+                    if (nuevoDefensor.getActualArmor() <= 0) {
+                        enemyDrops++;
+                        addWaste(nuevoDefensor);
+                        armies[1][grupoDefensor].remove(nuevoDefensor);
+                        actualNumberUnitsEnemy[grupoDefensor]--;
+                        battleDevelopment += ">>> Unidad enemiga eliminada en ataque extra.\n";
+                    }
+                }
+
+                comienzo++;
+
+            // ================= ENEMIGO ATACA =================
+            } else {
+
+                int grupoAtacante = getEnemyGroupAttacker();
+                int grupoDefensor = getGroupDefenderCivilization();
+
+                // Asegurar que ambos grupos tengan unidades
+                grupoAtacante = getNonEmptyGroup(1, grupoAtacante);
+                grupoDefensor = getNonEmptyGroup(0, grupoDefensor);
+
+                int idxAtacante = (int)(Math.random() * armies[1][grupoAtacante].size());
+                MilitaryUnit atacante = armies[1][grupoAtacante].get(idxAtacante);
+
+                int idxDefensor = (int)(Math.random() * armies[0][grupoDefensor].size());
+                MilitaryUnit defensor = armies[0][grupoDefensor].get(idxDefensor);
+
+                int daño = atacante.attack();
+                defensor.takeDamage(daño);
+
+                battleDevelopment += "Enemigo: " + atacante.getClass().getSimpleName() +
+                                     " ataca a " + defensor.getClass().getSimpleName() +
+                                     " por " + daño + " daño.\n";
+
+                if (defensor.getActualArmor() <= 0) {
+                    civilizationDrops++;
+                    addWaste(defensor);
+                    armies[0][grupoDefensor].remove(defensor);
+                    actualNumberUnitsCivilization[grupoDefensor]--;
+                    battleDevelopment += ">>> Unidad de la civilización eliminada.\n";
+                }
+
+                int chance = getChanceAttackAgain(atacante);
+
+                if (Math.random() * 100 < chance) {
+
+                    grupoDefensor = getGroupDefenderCivilization();
+                    grupoDefensor = getNonEmptyGroup(0, grupoDefensor);
+
+                    int idxNuevo = (int)(Math.random() * armies[0][grupoDefensor].size());
+                    MilitaryUnit nuevoDefensor = armies[0][grupoDefensor].get(idxNuevo);
+
+                    int dañoExtra = atacante.attack();
+                    nuevoDefensor.takeDamage(dañoExtra);
+
+                    battleDevelopment += "ATAQUE EXTRA enemigo de " + atacante.getClass().getSimpleName() +
+                                         " a " + nuevoDefensor.getClass().getSimpleName() +
+                                         " por " + dañoExtra + " daño.\n";
+
+                    if (nuevoDefensor.getActualArmor() <= 0) {
+                        civilizationDrops++;
+                        addWaste(nuevoDefensor);
+                        armies[0][grupoDefensor].remove(nuevoDefensor);
+                        actualNumberUnitsCivilization[grupoDefensor]--;
+                        battleDevelopment += ">>> Unidad de la civilización eliminada en ataque extra.\n";
+                    }
+                }
+
+                comienzo--;
+            }
+        }
+        resetArmyArmor();
+
+        // SUBIR EXPERIENCIA
+        for (int grupo = 0; grupo < 9; grupo++) {
+            for (MilitaryUnit u : armies[0][grupo]) {
+            	if (grupo != 8) {
+            		u.setExperience(u.getExperience() + 1);
+            	}
+            }
+            for (MilitaryUnit u : armies[1][grupo]) {
+            	if (grupo != 8) {
+            		 u.setExperience(u.getExperience() + 1);
+            	}
+            } 
+        }
+
+        // BONUS DE EXPERIENCIA
+        for (int grupo = 0; grupo < 9; grupo++) {
+
+            for (MilitaryUnit u : armies[0][grupo]) {
+                int exp = u.getExperience();
+                if (exp > 0 && grupo != 8) {
+                    if (u instanceof AttackUnit a) {
+                        a.setArmor(a.getArmor() + (PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT * exp));
+                        a.setBaseDamage(a.getBaseDamage() + (PLUS_ATTACK_UNIT_PER_EXPERIENCE_POINT * exp));
+                    }
+                    else if (u instanceof DefenseUnit d) {
+                        d.setArmor(d.getArmor() + (PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT * exp));
+                        d.setBaseDamage(d.getBaseDamage() + (PLUS_ATTACK_UNIT_PER_EXPERIENCE_POINT * exp));
+                    }
+                    else if (u instanceof SpecialUnit s) {
+                        s.setArmor(s.getArmor() + (PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT * exp));
+                        s.setBaseDamage(s.getBaseDamage() + (PLUS_ATTACK_UNIT_PER_EXPERIENCE_POINT * exp));
+                    }
+                }
+            }
+
+            for (MilitaryUnit u : armies[1][grupo]) {
+                int exp = u.getExperience();
+                if (exp > 0 && grupo != 8) {
+                    if (u instanceof AttackUnit a) {
+                        a.setArmor(a.getArmor() + (PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT * exp));
+                        a.setBaseDamage(a.getBaseDamage() + (PLUS_ATTACK_UNIT_PER_EXPERIENCE_POINT * exp));
+                    }
+                    else if (u instanceof DefenseUnit d) {
+                        d.setArmor(d.getArmor() + (PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT * exp));
+                        d.setBaseDamage(d.getBaseDamage() + (PLUS_ATTACK_UNIT_PER_EXPERIENCE_POINT * exp));
+                    }
+                    else if (u instanceof SpecialUnit s) {
+                        s.setArmor(s.getArmor() + (PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT * exp));
+                        s.setBaseDamage(s.getBaseDamage() + (PLUS_ATTACK_UNIT_PER_EXPERIENCE_POINT * exp));
+                    }
+                }
+            }
+        }
+
+        boolean haySacerdotesFinal = armies[0][8].size() > 0;
+
+        if (haySacerdotesFinal) {
+
+            for (int grupo = 0; grupo < 9; grupo++) {
+
+                for (MilitaryUnit u : armies[0][grupo]) {
+
+                    if (u instanceof AttackUnit a) {
+                        a.setArmor(a.getArmor() + (a.getArmor() * PLUS_ARMOR_UNIT_SANCTIFIED) / 100);
+                        a.setBaseDamage(a.getBaseDamage() + (a.getBaseDamage() * PLUS_ATTACK_UNIT_SANCTIFIED) / 100);
+                    }
+                    else if (u instanceof DefenseUnit d) {
+                        d.setArmor(d.getArmor() + (d.getArmor() * PLUS_ARMOR_UNIT_SANCTIFIED) / 100);
+                        d.setBaseDamage(d.getBaseDamage() + (d.getBaseDamage() * PLUS_ATTACK_UNIT_SANCTIFIED) / 100);
+                    }
+                }
+            }
+
+            battleDevelopment += ">>> Las unidades sobrevivientes han sido santificadas (+7% ataque y armadura).\n";
+        }
+
+        battleDevelopment += ">>> Bonus de experiencia aplicado a todas las unidades vivas.\n";
+
+        updateResourcesLooses();
+
+        int perdidasCivilizacion = resourceLooses[0][3];
+        int perdidasEnemigo = resourceLooses[1][3];
+
+        if (perdidasCivilizacion < perdidasEnemigo) {
+            battleDevelopment += ">>> GANADOR: Civilización (menos pérdidas de recursos)\n";
+            battleDevelopment += ">>> La civilización obtiene los residuos: "
+                                 + wasteWoodIron[0] + " madera, "
+                                 + wasteWoodIron[1] + " hierro.\n";
+        } 
+        else if (perdidasEnemigo < perdidasCivilizacion) {
+            battleDevelopment += ">>> GANADOR: Enemigo (menos pérdidas de recursos)\n";
+            battleDevelopment += ">>> El enemigo obtiene los residuos: "
+                                 + wasteWoodIron[0] + " madera, "
+                                 + wasteWoodIron[1] + " hierro.\n";
+        } 
+        else {
+            battleDevelopment += ">>> EMPATE: Ambos ejércitos han perdido lo mismo.\n";
+        }
+    }
+
+
     
     //Getter y Setters
     
@@ -569,4 +902,5 @@ class Battle implements Variables{
 	public void setActualNumberUnitsEnemy(int[] actualNumberUnitsEnemy) {
 		this.actualNumberUnitsEnemy = actualNumberUnitsEnemy;
 	}   
+	
 }
