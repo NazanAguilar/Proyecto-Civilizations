@@ -5,14 +5,12 @@ abstract class DefenseUnit implements MilitaryUnit,Variables{
 	private int initialArmor;
 	private int baseDamage;
 	private int experience;
-	private boolean sanctified;
 	public DefenseUnit(int armor, int baseDamage) {
 		super();
 		this.armor = armor;
 		this.initialArmor = armor;
 		this.baseDamage = baseDamage;
 		this.experience = 0;
-		this.sanctified = false;
 	}
 	public int getArmor() {
 		return armor;
@@ -23,9 +21,7 @@ abstract class DefenseUnit implements MilitaryUnit,Variables{
 	public int getBaseDamage() {
 		return baseDamage;
 	}
-	public boolean isSanctified() {
-		return sanctified;
-	}
+	
 	public int getExperienceUnit() {
 		return experience;
 	}

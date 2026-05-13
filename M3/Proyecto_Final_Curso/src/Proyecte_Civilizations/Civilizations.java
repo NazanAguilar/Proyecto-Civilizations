@@ -1,6 +1,7 @@
 package Proyecte_Civilizations;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 
 class Civilization implements Variables{
 	private int technologyDefense ;
@@ -301,7 +302,7 @@ class Civilization implements Variables{
 	public void newMagician(int n) {
 		int creados = 0;
 		for(int i = 0; i< n ;i++) {
-			if(food<  FOOD_COST_MAGICIAN || wood < WOOD_COST_MAGICIAN ||iron < IRON_COST_MAGICIAN) {
+			if(food<  FOOD_COST_MAGICIAN || wood < WOOD_COST_MAGICIAN ||iron < IRON_COST_MAGICIAN || mana < MANA_COST_MAGICIAN) {
 				try {
 					throw new ResourceException("No hay recursos para añadir un Magician ");
 
@@ -314,33 +315,47 @@ class Civilization implements Variables{
 				food -= FOOD_COST_SPEARMAN;
 				wood -= WOOD_COST_SPEARMAN;
 				iron -= IRON_COST_SPEARMAN;
+				mana -= MANA_COST_MAGICIAN;
 				creados +=1;
 			}
 		}
 		System.out.println("Se han creado "+creados+" Spearman");
 	}
 	public void newPriest(int n) {
-		int creados = 0;
-		for(int i = 0; i< n ;i++) {
-			if(food<  FOOD_COST_PRIEST || wood < WOOD_COST_PRIEST ||iron < IRON_COST_PRIEST) {
-				try {
-					throw new ResourceException("No hay recursos para añadir un Priest ");
+	    int creados = 0;
 
-				} catch ( ResourceException e) {
-					System.out.println(e.getMessage());
-					break;
-				}
-			}else {
-				army[8].add(new Priest(0));
-				food -= FOOD_COST_PRIEST;
-				wood -= WOOD_COST_PRIEST;
-				iron -= IRON_COST_PRIEST;
-				creados +=1;
-			}
-		}
-		System.out.println("Se han creado "+creados+" Spearman");
+	    for(int i = 0; i < n; i++) {
+
+	        if (i == church) {
+	            System.out.println("No puedes crear más Priests porque solo tienes " + church + " iglesias.");
+	            break;
+	        }
+
+	        if(food < FOOD_COST_PRIEST ||
+	           wood < WOOD_COST_PRIEST ||
+	           iron < IRON_COST_PRIEST ||
+	           mana < MANA_COST_PRIEST) {
+
+	            try {
+	                throw new ResourceException("No hay recursos para añadir un Priest ");
+	            } catch (ResourceException e) {
+	                System.out.println(e.getMessage());
+	                break;
+	            }
+
+	        } else {
+	            army[8].add(new Priest(0));
+	            food -= FOOD_COST_PRIEST;
+	            wood -= WOOD_COST_PRIEST;
+	            iron -= IRON_COST_PRIEST;
+	            mana -= MANA_COST_PRIEST;
+	            creados++;
+	        }
+	    }
+
+	    System.out.println("Se han creado " + creados + " Priests");
 	}
-	
+
 	
 	public void printStats() {
 

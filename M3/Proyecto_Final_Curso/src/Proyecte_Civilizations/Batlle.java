@@ -517,7 +517,6 @@ class Battle implements Variables{
 
     
     public void resetArmyArmor() {
-    	//Nuestro ejercito
     	for (int i = 0; i < 9 ;i++ ) {
     		for(int j = 0;j<armies[0][i].size();j++)
     		armies[0][i].get(j).resetArmor();
@@ -543,21 +542,20 @@ class Battle implements Variables{
     
     private int getNonEmptyGroup(int armyIndex, int initialGroup) {
 
-        // Si el grupo inicial tiene unidades, lo devolvemos
         if (!armies[armyIndex][initialGroup].isEmpty()) {
             return initialGroup;
         }
 
-        // Si está vacío, buscamos otro grupo con unidades
         for (int i = 0; i < armies[armyIndex].length; i++) {
             if (!armies[armyIndex][i].isEmpty()) {
                 return i;
             }
         }
 
-        // Si no hay ningún grupo con unidades (ejército muerto)
         return initialGroup;
     }
+    
+    
     public void Batalla() {
 
         int comienzo = (int)(Math.random() * 2) + 1;
