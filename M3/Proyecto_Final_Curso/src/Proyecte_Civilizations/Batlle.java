@@ -1,7 +1,6 @@
 package Proyecte_Civilizations;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 class Battle implements Variables{
 
@@ -186,10 +185,10 @@ class Battle implements Variables{
             actualNumberUnitsEnemy[j] = armies[1][j].size();
         }
 
-        // 8) resourceLooses (VACÍO)
+        // 8) resourceLooses 
         resourceLooses = new int[2][4];
 
-        // 9) wasteWoodIron (VACÍO)
+        // 9) wasteWoodIron 
         wasteWoodIron = new int[2];
     }
 
@@ -534,7 +533,7 @@ class Battle implements Variables{
             wasteWoodIron[0] += u.getWoodCost();   
             wasteWoodIron[1] += u.getIronCost();   
 
-            battleDevelopment += ">>> La unidad dejó residuos: +" 
+            battleDevelopment += "La unidad dejó residuos: +" 
                                  + u.getWoodCost() + " madera, +" 
                                  + u.getIronCost() + " hierro.\n";
         }
@@ -542,12 +541,12 @@ class Battle implements Variables{
     
     private int getNonEmptyGroup(int armyIndex, int initialGroup) {
 
-        if (!armies[armyIndex][initialGroup].isEmpty()) {
+        if (armies[armyIndex][initialGroup].size() != 0) {
             return initialGroup;
         }
 
         for (int i = 0; i < armies[armyIndex].length; i++) {
-            if (!armies[armyIndex][i].isEmpty()) {
+            if (armies[armyIndex][i].size() !=0) {
                 return i;
             }
         }
@@ -555,29 +554,32 @@ class Battle implements Variables{
         return initialGroup;
     }
     
-    
-    public void Batalla() {
+    public int[] Batalla() {
 
         int comienzo = (int)(Math.random() * 2) + 1;
+        int ronda = 1;
 
         battleDevelopment += "===== INICIO DE LA BATALLA =====\n";
 
         while (true) {
 
+            battleDevelopment += "\n========== RONDA " + ronda + " ==========\n";
+
             int[] porcentajes = remainderPercentageFleet();
 
             if (porcentajes[0] <= 20 || porcentajes[1] <= 20) {
-                battleDevelopment += ">>> La batalla termina: un ejército tiene menos del 20%\n";
+                battleDevelopment += "La batalla termina: un ejército tiene menos del 20%\n";
                 break;
             }
 
-            // ================= CIVILIZACIÓN ATACA =================
+            // CIVILIZACIÓN ATACA 
             if (comienzo == 1) {
+
+                battleDevelopment += "--- Turno de la CIVILIZACIÓN ---\n";
 
                 int grupoAtacante = getCivilizationGroupAttacker();
                 int grupoDefensor = getGroupDefenderEnemy();
 
-                // Asegurar que ambos grupos tengan unidades
                 grupoAtacante = getNonEmptyGroup(0, grupoAtacante);
                 grupoDefensor = getNonEmptyGroup(1, grupoDefensor);
 
@@ -595,16 +597,18 @@ class Battle implements Variables{
                                      " por " + daño + " daño.\n";
 
                 if (defensor.getActualArmor() <= 0) {
+                    battleDevelopment += "nidad enemiga eliminada.\n";
                     enemyDrops++;
                     addWaste(defensor);
                     armies[1][grupoDefensor].remove(defensor);
                     actualNumberUnitsEnemy[grupoDefensor]--;
-                    battleDevelopment += ">>> Unidad enemiga eliminada.\n";
                 }
 
                 int chance = getChanceAttackAgain(atacante);
 
                 if (Math.random() * 100 < chance) {
+
+                    battleDevelopment += "ATAQUE EXTRA :\n";
 
                     grupoDefensor = getGroupDefenderEnemy();
                     grupoDefensor = getNonEmptyGroup(1, grupoDefensor);
@@ -615,8 +619,8 @@ class Battle implements Variables{
                     int dañoExtra = atacante.attack();
                     nuevoDefensor.takeDamage(dañoExtra);
 
-                    battleDevelopment += "ATAQUE EXTRA de " + atacante.getClass().getSimpleName() +
-                                         " a " + nuevoDefensor.getClass().getSimpleName() +
+                    battleDevelopment += "Civilizacion: " + atacante.getClass().getSimpleName() +
+                                         " golpea a " + nuevoDefensor.getClass().getSimpleName() +
                                          " por " + dañoExtra + " daño.\n";
 
                     if (nuevoDefensor.getActualArmor() <= 0) {
@@ -624,19 +628,19 @@ class Battle implements Variables{
                         addWaste(nuevoDefensor);
                         armies[1][grupoDefensor].remove(nuevoDefensor);
                         actualNumberUnitsEnemy[grupoDefensor]--;
-                        battleDevelopment += ">>> Unidad enemiga eliminada en ataque extra.\n";
+                        battleDevelopment += "Unidad enemiga eliminada en ataque extra.\n";
                     }
                 }
 
                 comienzo++;
-
-            // ================= ENEMIGO ATACA =================
+            //  ENEMIGO ATACA
             } else {
+
+                battleDevelopment += "--- Turno del ENEMIGO ---\n";
 
                 int grupoAtacante = getEnemyGroupAttacker();
                 int grupoDefensor = getGroupDefenderCivilization();
 
-                // Asegurar que ambos grupos tengan unidades
                 grupoAtacante = getNonEmptyGroup(1, grupoAtacante);
                 grupoDefensor = getNonEmptyGroup(0, grupoDefensor);
 
@@ -654,16 +658,18 @@ class Battle implements Variables{
                                      " por " + daño + " daño.\n";
 
                 if (defensor.getActualArmor() <= 0) {
+                    battleDevelopment += "Unidad de la civilización eliminada.\n";
                     civilizationDrops++;
                     addWaste(defensor);
                     armies[0][grupoDefensor].remove(defensor);
                     actualNumberUnitsCivilization[grupoDefensor]--;
-                    battleDevelopment += ">>> Unidad de la civilización eliminada.\n";
                 }
 
                 int chance = getChanceAttackAgain(atacante);
 
                 if (Math.random() * 100 < chance) {
+
+                    battleDevelopment += "ATAQUE EXTRA ENEMIGO :\n";
 
                     grupoDefensor = getGroupDefenderCivilization();
                     grupoDefensor = getNonEmptyGroup(0, grupoDefensor);
@@ -674,8 +680,8 @@ class Battle implements Variables{
                     int dañoExtra = atacante.attack();
                     nuevoDefensor.takeDamage(dañoExtra);
 
-                    battleDevelopment += "ATAQUE EXTRA enemigo de " + atacante.getClass().getSimpleName() +
-                                         " a " + nuevoDefensor.getClass().getSimpleName() +
+                    battleDevelopment += "Enemigo: " + atacante.getClass().getSimpleName() +
+                                         " golpea a " + nuevoDefensor.getClass().getSimpleName() +
                                          " por " + dañoExtra + " daño.\n";
 
                     if (nuevoDefensor.getActualArmor() <= 0) {
@@ -683,12 +689,14 @@ class Battle implements Variables{
                         addWaste(nuevoDefensor);
                         armies[0][grupoDefensor].remove(nuevoDefensor);
                         actualNumberUnitsCivilization[grupoDefensor]--;
-                        battleDevelopment += ">>> Unidad de la civilización eliminada en ataque extra.\n";
+                        battleDevelopment += "Unidad de la civilización eliminada en ataque extra.\n";
                     }
                 }
 
                 comienzo--;
             }
+
+            ronda++; 
         }
         resetArmyArmor();
 
@@ -765,10 +773,10 @@ class Battle implements Variables{
                 }
             }
 
-            battleDevelopment += ">>> Las unidades sobrevivientes han sido santificadas (+7% ataque y armadura).\n";
+            battleDevelopment += "Las unidades sobrevivientes han sido santificadas (+7% ataque y armadura).\n";
         }
 
-        battleDevelopment += ">>> Bonus de experiencia aplicado a todas las unidades vivas.\n";
+        battleDevelopment += "Bonus de experiencia aplicado a todas las unidades vivas.\n";
 
         updateResourcesLooses();
 
@@ -776,20 +784,23 @@ class Battle implements Variables{
         int perdidasEnemigo = resourceLooses[1][3];
 
         if (perdidasCivilizacion < perdidasEnemigo) {
-            battleDevelopment += ">>> GANADOR: Civilización (menos pérdidas de recursos)\n";
-            battleDevelopment += ">>> La civilización obtiene los residuos: "
+            battleDevelopment += "GANADOR: Civilización (menos pérdidas de recursos)\n";
+            battleDevelopment += "La civilización obtiene los residuos: "
                                  + wasteWoodIron[0] + " madera, "
                                  + wasteWoodIron[1] + " hierro.\n";
+            return wasteWoodIron;
         } 
         else if (perdidasEnemigo < perdidasCivilizacion) {
-            battleDevelopment += ">>> GANADOR: Enemigo (menos pérdidas de recursos)\n";
-            battleDevelopment += ">>> El enemigo obtiene los residuos: "
+            battleDevelopment += "GANADOR: Enemigo (menos pérdidas de recursos)\n";
+            battleDevelopment += "El enemigo obtiene los residuos: "
                                  + wasteWoodIron[0] + " madera, "
                                  + wasteWoodIron[1] + " hierro.\n";
         } 
         else {
-            battleDevelopment += ">>> EMPATE: Ambos ejércitos han perdido lo mismo.\n";
+            battleDevelopment += "EMPATE: Ambos ejércitos han perdido la misma cantidad de recurdod:\n";
         }
+        int[] lista = new int[2];
+        return lista;
     }
 
 
@@ -900,5 +911,4 @@ class Battle implements Variables{
 	public void setActualNumberUnitsEnemy(int[] actualNumberUnitsEnemy) {
 		this.actualNumberUnitsEnemy = actualNumberUnitsEnemy;
 	}   
-	
 }
