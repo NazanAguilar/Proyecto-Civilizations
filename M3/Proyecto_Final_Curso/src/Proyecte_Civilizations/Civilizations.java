@@ -504,5 +504,118 @@ class Civilization implements Variables{
 	public void setArmy(ArrayList<MilitaryUnit>[] army) {
 		this.army = army;
 	}
+    public int getFarmFoodCost() 
+    { 
+        return FOOD_COST_FARM;  
+    }
+
+    public int getFarmWoodCost() 
+    { 
+        return WOOD_COST_FARM;  
+    }
+
+    public int getFarmIronCost() 
+    { 
+        return IRON_COST_FARM;  
+    }
+
+    public int getCarpentryFoodCost() 
+    { 
+        return FOOD_COST_CARPENTRY;  
+    }
+
+    public int getCarpentryWoodCost() 
+    { 
+        return WOOD_COST_CARPENTRY;  
+    }
+
+    public int getCarpentryIronCost() 
+    { 
+        return IRON_COST_CARPENTRY;  
+    }
+
+    public int getSmithyFoodCost() 
+    { 
+        return FOOD_COST_SMITHY;  
+    }
+
+    public int getSmithyWoodCost() 
+    { 
+        return WOOD_COST_SMITHY;  
+    }
+
+    public int getSmithyIronCost() 
+    { 
+        return IRON_COST_SMITHY;  
+    }
+
+    public int getChurchFoodCost() 
+    { 
+        return FOOD_COST_CHURCH;  
+    }
+
+    public int getChurchWoodCost() 
+    { 
+        return WOOD_COST_CHURCH;  
+    }
+
+    public int getChurchIronCost() 
+    { 
+        return IRON_COST_CHURCH;  
+    }
+
+    public int getMagicTowerFoodCost() 
+    { 
+        return FOOD_COST_MAGICTOWER;  
+    }
+
+    public int getMagicTowerWoodCost() 
+    { 
+        return WOOD_COST_MAGICTOWER;  
+    }
+
+    public int getMagicTowerIronCost() 
+    { 
+        return IRON_COST_MAGICTOWER;  
+    }
+
+    public int getUnitFoodCost(int tipo) 
+    { 
+        return FOOD_COST_UNITS[tipo - 1];  
+    }
+
+    public int getUnitWoodCost(int tipo) 
+    { 
+        return WOOD_COST_UNITS[tipo - 1];  
+    }
+
+    public int getUnitIronCost(int tipo) 
+    { 
+        return IRON_COST_UNITS[tipo - 1];  
+    }
+
+    public int getTechDefenseIronCost() 
+    {
+        return UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST +
+               UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST * technologyDefense;
+    }
+
+    public int getTechDefenseWoodCost() 
+    {
+        return UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST +
+               UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST * technologyDefense;
+    }
+
+    public int getTechAttackIronCost() 
+    {
+        return UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST +
+               UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST * technologyAtack;
+    }
+
+    public int getTechAttackWoodCost() 
+    {
+        return UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST +
+               UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST * technologyAtack;
+    }
 }
 
