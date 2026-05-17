@@ -38,6 +38,7 @@ public class StartBattle {
     	}
     	
         String consulta = "SELECT civilization_id, type, experience FROM " + from + " WHERE civilization_id = ?";
+        String delete = "DELETE FROM " + from + " WHERE civilization_id = ?";
 
         try {
 
@@ -47,12 +48,12 @@ public class StartBattle {
             // Crear conexión
             Connection conn = DriverManager.getConnection(url, usuario, pass);
 
-            // PreparedStatement
-            PreparedStatement ps = conn.prepareStatement(consulta);
+            // Consulta
+            PreparedStatement psCons = conn.prepareStatement(consulta);
 
-            ps.setInt(1, idcivi);
+            psCons.setInt(1, idcivi);
 
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = psCons.executeQuery();
 
             System.out.println("\nTABLA: " + tabla);
 
@@ -60,9 +61,20 @@ public class StartBattle {
                 System.out.println("idCivi - " + rs.getInt("civilization_id") + ", Tipo - " + rs.getString("type") + ", Exp - " + rs.getInt("experience"));
             }
 
+            //Delete 
+            PreparedStatement psDel = conn.prepareStatement(delete);
+
+            psDel.setInt(1, idcivi);
+
+            int filasBorradas = psDel.executeUpdate();
+
+            System.out.println("Filas eliminadas: " + filasBorradas);
+
+            
             // Cerrar recursos
             rs.close();
-            ps.close();
+            psCons.close();
+            psDel.close();
             conn.close();
 
         } catch (ClassNotFoundException e) {
