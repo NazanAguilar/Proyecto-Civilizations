@@ -186,7 +186,7 @@ public class EndBattle {
 	
 	
 	
-/*	public static void battleStats(int idCivi, int numBat, int WoodAdq, int ironAdq) {
+	public static void insertBattleStats(int idCivi, int numBat, int woodAdq, int ironAdq, int idCiviEne) {
 		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
 	    String usuario = "root";
 	    String pass = "mysqlocal";
@@ -202,14 +202,17 @@ public class EndBattle {
 	        System.out.println("Conexión creada correctamente");
 
 		// Insert SQL
-			String insert = "INSERT INTO battle_stats (civilization_id, type, armor, base_damage, experience, sanctified) "
-					+ "	VALUES (?, ?, 0, 0, ?, false);";
+			String insert = "INSERT INTO battle_stats (civilization_id, id_battle,wood_acquired,iron_acquired,civ_enem) "
+					+ "	VALUES (?, ?, ?, ?, ?);";
 			PreparedStatement ps_insert = conn.prepareStatement(insert,ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 			
 
 			ps_insert.setInt(1, idCivi);
-			ps_insert.setString(2,tipo);
-			ps_insert.setInt(3,exp);
+			ps_insert.setInt(2, numBat);
+			ps_insert.setInt(3, woodAdq);
+			ps_insert.setInt(4, ironAdq);
+			ps_insert.setInt(5, idCiviEne);
+
 			
 			ps_insert.executeUpdate();
 			
@@ -224,6 +227,46 @@ public class EndBattle {
 		}
 	}
 
-	*/
+	public static void insertBattleLogs(int idCivi, int numBat, int numLine, int log, int idCiviEne) {
+		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
+	    String usuario = "root";
+	    String pass = "mysqlocal";
 	
+	    try {
+	
+	        // Cargar Driver
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        System.out.println("Driver cargado correctamente");
+	
+	        // Crear conexión con BBDD
+	        Connection conn = DriverManager.getConnection(url, usuario, pass);
+	        System.out.println("Conexión creada correctamente");
+
+		// Insert SQL
+			String insert = "INSERT INTO battle_log (civilization_id, id_battle, num_line, log_entry, civ_enem) "
+					+ "	VALUES (?, ?, ?, ?, ?);";
+			PreparedStatement ps_insert = conn.prepareStatement(insert,ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+			
+
+			ps_insert.setInt(1, idCivi);
+			ps_insert.setInt(2, numBat);
+			ps_insert.setInt(3, numLine);
+			ps_insert.setInt(4, log);
+			ps_insert.setInt(5, idCiviEne);
+
+			
+			ps_insert.executeUpdate();
+			
+	    } catch (ClassNotFoundException e) {
+	    	
+			e.printStackTrace();
+			System.out.println("Error al cargar el driver: "+e);
+		}
+		catch (SQLException e) {
+			System.out.println("Error al realizar la conexión");
+			e.printStackTrace();
+		}
+	}
+
+
 }
