@@ -3,6 +3,8 @@ package Proyecte_Civilizations;
 import java.util.ArrayList;
 import java.util.IllegalFormatCodePointException;
 
+import javax.swing.JOptionPane;
+
 class Civilization implements Variables{
 	private int technologyDefense ;
 	private int technologyAtack ;
@@ -50,6 +52,7 @@ class Civilization implements Variables{
 		    food -= FOOD_COST_CHURCH;
 		    iron -= IRON_COST_CHURCH;
 		    wood -= WOOD_COST_CHURCH;
+		    mana -= MANA_COST_CHURCH;
 		}
 
 	}
@@ -154,13 +157,16 @@ class Civilization implements Variables{
 		int creados = 0;
 		for(int i = 0; i< n ;i++) {
 			if(food<  FOOD_COST_SWORDSMAN || wood < WOOD_COST_SWORDSMAN ||iron < IRON_COST_SWORDSMAN) {
-				try {
-					throw new ResourceException("No hay recursos para añadir un Swordsman ");
+	            try {
+	                throw new ResourceException("No hay recursos para añadir todos los Swordsman");
 
-				} catch ( ResourceException e) {
-					System.out.println(e.getMessage());
-					break;
-				}
+	            } catch (ResourceException e) {
+
+	                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No hay recursos para añadir todos los Swordsman");
+	                break;
+	            }
 			}else {
 				army[0].add(new Swordsam(ARMOR_SWORDSMAN+(PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY*technologyDefense),BASE_DAMAGE_SWORDSMAN+(PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY*technologyAtack)));
 				food -= FOOD_COST_SWORDSMAN;
@@ -170,20 +176,28 @@ class Civilization implements Variables{
 
 			}
 		}
-		System.out.println("Se han creado "+creados+" Swordsman");
+	    if (creados > 0) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Se han creado " + creados + " Swordsman"
+	        );
+	    }
 
 	}
 	public void newSpearman(int n) {
 		int creados = 0;
 		for(int i = 0; i< n ;i++) {
 			if(food<  FOOD_COST_SPEARMAN || wood < WOOD_COST_SPEARMAN ||iron < IRON_COST_SPEARMAN) {
-				try {
-					throw new ResourceException("No hay recursos para añadir un Spearman ");
+	            try {
+	                throw new ResourceException("No hay recursos para añadir todos los Spearman");
 
-				} catch ( ResourceException e) {
-					System.out.println(e.getMessage());
-					break;
-				}
+	            } catch (ResourceException e) {
+
+	                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No hay recursos para añadir todos los Spearman");
+	                break;
+	            }
 			}else {
 				army[1].add(new Spearman(ARMOR_SPEARMAN+(PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY*technologyDefense),BASE_DAMAGE_SPEARMAN+(PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY*technologyAtack)));
 				food -= FOOD_COST_SPEARMAN;
@@ -192,19 +206,27 @@ class Civilization implements Variables{
 				creados +=1;
 			}
 		}
-		System.out.println("Se han creado "+creados+" Spearman");
+	    if (creados > 0) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Se han creado " + creados + " Spearman"
+	        );
+	    }
 	}
 	public void newCrossbow(int n) {
 		int creados = 0;
 		for(int i = 0; i< n ;i++) {
 			if(food<  FOOD_COST_CROSSBOW || wood < WOOD_COST_CROSSBOW ||iron < IRON_COST_CROSSBOW) {
-				try {
-					throw new ResourceException("No hay recursos para añadir un Crossbow ");
+	            try {
+	                throw new ResourceException("No hay recursos para añadir todos los Crossbow");
 
-				} catch ( ResourceException e) {
-					System.out.println(e.getMessage());
-					break;
-				}
+	            } catch (ResourceException e) {
+
+	                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No hay recursos para añadir todos los Crossbow");
+	                break;
+	            }
 			}else {
 				army[2].add(new Crossbow(ARMOR_CROSSBOW+(PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY*technologyDefense),BASE_DAMAGE_CROSSBOW+(PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY*technologyAtack)));
 				food -= FOOD_COST_CROSSBOW;
@@ -213,19 +235,27 @@ class Civilization implements Variables{
 				creados +=1;
 			}
 		}
-		System.out.println("Se han creado "+creados+" Crossbow");
+	    if (creados > 0) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Se han creado " + creados + " Crossbow"
+	        );
+	    }
 	}
 	public void newCannon(int n) {
 		int creados = 0;
 		for(int i = 0; i< n ;i++) {
 			if(food<  FOOD_COST_CANNON || wood < WOOD_COST_CANNON ||iron < IRON_COST_CANNON) {
-				try {
-					throw new ResourceException("No hay recursos para añadir un Spearman ");
+	            try {
+	                throw new ResourceException("No hay recursos para añadir todos los Cannon");
 
-				} catch ( ResourceException e) {
-					System.out.println(e.getMessage());
-					break;
-				}
+	            } catch (ResourceException e) {
+
+	                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No hay recursos para añadir todos los Cannon");
+	                break;
+	            }
 			}else {
 				army[3].add(new Cannon(ARMOR_CANNON+(PLUS_ARMOR_CANNON_BY_TECHNOLOGY*technologyDefense),BASE_DAMAGE_CANNON+(PLUS_ATTACK_CANNON_BY_TECHNOLOGY*technologyAtack)));
 				food -= FOOD_COST_CANNON;
@@ -234,19 +264,27 @@ class Civilization implements Variables{
 				creados +=1;
 			}
 		}
-		System.out.println("Se han creado "+creados+" Cannon");
+	    if (creados > 0) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Se han creado " + creados + " Canon"
+	        );
+	    }
 	}
 	public void newArrowTower(int n) {
 		int creados = 0;
 		for(int i = 0; i< n ;i++) {
 			if(food<  FOOD_COST_ARROWTOWER || wood < WOOD_COST_ARROWTOWER ||iron < IRON_COST_ARROWTOWER) {
-				try {
-					throw new ResourceException("No hay recursos para añadir un ArrowTower ");
+	            try {
+	                throw new ResourceException("No hay recursos para añadir todos los ArrowTower");
 
-				} catch ( ResourceException e) {
-					System.out.println(e.getMessage());
-					break;
-				}
+	            } catch (ResourceException e) {
+
+	                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No hay recursos para añadir todos los ArrowTower");
+	                break;
+	            }
 			}else {
 				army[4].add(new ArrowTower(ARMOR_ARROWTOWER+(PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY*technologyDefense),BASE_DAMAGE_ARROWTOWER+(PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY*technologyAtack)));
 				food -= FOOD_COST_ARROWTOWER;
@@ -255,71 +293,112 @@ class Civilization implements Variables{
 				creados +=1;
 			}
 		}
-		System.out.println("Se han creado "+creados+" Arrow Tower");
+	    if (creados > 0) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Se han creado " + creados + "Arrow Tower"
+	        );
+	    }
 	}
 	public void newCatapult(int n) {
 		int creados = 0;
 		for(int i = 0; i< n ;i++) {
 			if(food<  FOOD_COST_CATAPULT || wood < WOOD_COST_CATAPULT ||iron < IRON_COST_CATAPULT) {
-				try {
-					throw new ResourceException("No hay recursos para añadir un Catapult ");
+	            try {
+	                throw new ResourceException("No hay recursos para añadir todos las Catapulas");
 
-				} catch ( ResourceException e) {
-					System.out.println(e.getMessage());
-					break;
-				}
-			}else {
-				army[5].add(new Catapult(ARMOR_CATAPULT+(PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY*technologyDefense),BASE_DAMAGE_CATAPULT+(PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY*technologyAtack)));
-				food -= FOOD_COST_CATAPULT;
-				wood -= WOOD_COST_CATAPULT;
-				iron -= IRON_COST_CATAPULT;
-				creados +=1;
+	            } catch (ResourceException e) {
+
+	                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No hay recursos para añadir todos las Catapultas");
+	                break;
+	            }
 			}
+			army[5].add(new Catapult(ARMOR_CATAPULT+(PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY*technologyDefense),BASE_DAMAGE_CATAPULT+(PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY*technologyAtack)));
+			food -= FOOD_COST_CATAPULT;
+			wood -= WOOD_COST_CATAPULT;
+			iron -= IRON_COST_CATAPULT;
+			creados +=1;
+
 		}
-		System.out.println("Se han creado "+creados+" Catapult");
+	    if (creados > 0) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Se han creado " + creados + "Catapultas"
+	        );
+	    }
 	}
 	public void newRocketLauncher(int n) {
-		int creados = 0;
-		for(int i = 0; i< n ;i++) {
-			if(food<  FOOD_COST_ROCKETLAUNCHERTOWER || wood < WOOD_COST_ROCKETLAUNCHERTOWER ||iron < IRON_COST_ROCKETLAUNCHERTOWER) {
-				try {
-					throw new ResourceException("No hay recursos para añadir un Rocket Launcher Tower ");
+	    int creados = 0;
 
-				} catch ( ResourceException e) {
-					System.out.println(e.getMessage());
-					break;
-				}
-			}else {
-				army[6].add(new RocketLauncherTower(ARMOR_ROCKETLAUNCHERTOWER+(PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY*technologyDefense),BASE_DAMAGE_ROCKETLAUNCHERTOWER+(PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY*technologyAtack)));
-				food -= FOOD_COST_ROCKETLAUNCHERTOWER;
-				wood -= WOOD_COST_ROCKETLAUNCHERTOWER;
-				iron -= IRON_COST_ROCKETLAUNCHERTOWER;
-				creados +=1;
-			}
-		}
-		System.out.println("Se han creado "+creados+"Rocket Launcher Tower");
+	    for (int i = 0; i < n; i++) {
+
+	        if (food < FOOD_COST_ROCKETLAUNCHERTOWER ||
+	            wood < WOOD_COST_ROCKETLAUNCHERTOWER ||
+	            iron < IRON_COST_ROCKETLAUNCHERTOWER) {
+
+	            try {
+	                throw new ResourceException("No hay recursos para añadir todos los Rocket Launcher Tower");
+
+	            } catch (ResourceException e) {
+
+	                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No hay recursos para añadir todos los Rocket Launcher Tower");
+	                break;
+	            }
+	        }
+
+	        army[6].add(new RocketLauncherTower(
+	            ARMOR_ROCKETLAUNCHERTOWER + (PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY * technologyDefense),
+	            BASE_DAMAGE_ROCKETLAUNCHERTOWER + (PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY * technologyAtack)
+	        ));
+
+	        food -= FOOD_COST_ROCKETLAUNCHERTOWER;
+	        wood -= WOOD_COST_ROCKETLAUNCHERTOWER;
+	        iron -= IRON_COST_ROCKETLAUNCHERTOWER;
+
+	        creados++;
+	    }
+
+	    if (creados > 0) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Se han creado " + creados + " Rocket Launcher Tower"
+	        );
+	    }
 	}
+
 	public void newMagician(int n) {
 		int creados = 0;
 		for(int i = 0; i< n ;i++) {
 			if(food<  FOOD_COST_MAGICIAN || wood < WOOD_COST_MAGICIAN ||iron < IRON_COST_MAGICIAN || mana < MANA_COST_MAGICIAN) {
-				try {
-					throw new ResourceException("No hay recursos para añadir un Magician ");
+	            try {
+	                throw new ResourceException("No hay recursos para añadir todos los Magician");
 
-				} catch ( ResourceException e) {
-					System.out.println(e.getMessage());
-					break;
-				}
-			}else {
-				army[7].add(new Magician(BASE_DAMAGE_MAGICIAN+(PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY*technologyAtack)));
-				food -= FOOD_COST_SPEARMAN;
-				wood -= WOOD_COST_SPEARMAN;
-				iron -= IRON_COST_SPEARMAN;
-				mana -= MANA_COST_MAGICIAN;
-				creados +=1;
+	            } catch (ResourceException e) {
+
+	                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No hay recursos para añadir todos los Magician");
+	                break;
+	            }
 			}
+			army[7].add(new Magician(BASE_DAMAGE_MAGICIAN+(PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY*technologyAtack)));
+			food -= FOOD_COST_SPEARMAN;
+			wood -= WOOD_COST_SPEARMAN;
+			iron -= IRON_COST_SPEARMAN;
+			mana -= MANA_COST_MAGICIAN;
+			creados +=1;
+
 		}
-		System.out.println("Se han creado "+creados+" Spearman");
+	    if (creados > 0) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Se han creado " + creados + " Magician"
+	        );
+	    }
 	}
 	public void newPriest(int n) {
 	    int creados = 0;
@@ -327,8 +406,10 @@ class Civilization implements Variables{
 	    for(int i = 0; i < n; i++) {
 
 	        if (i == church) {
-	            System.out.println("No puedes crear más Priests porque solo tienes " + church + " iglesias.");
-	            break;
+                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No puedes crear más Priests porque solo tienes " + church + " iglesias.");
+	                break;
 	        }
 
 	        if(food < FOOD_COST_PRIEST ||
@@ -337,23 +418,31 @@ class Civilization implements Variables{
 	           mana < MANA_COST_PRIEST) {
 
 	            try {
-	                throw new ResourceException("No hay recursos para añadir un Priest ");
+	                throw new ResourceException("No hay recursos para añadir todos los Priest");
+
 	            } catch (ResourceException e) {
-	                System.out.println(e.getMessage());
+
+	                JOptionPane.showMessageDialog(
+	                    null,
+	                    "No hay recursos para añadir todos los Priest");
 	                break;
 	            }
 
-	        } else {
-	            army[8].add(new Priest(0));
-	            food -= FOOD_COST_PRIEST;
-	            wood -= WOOD_COST_PRIEST;
-	            iron -= IRON_COST_PRIEST;
-	            mana -= MANA_COST_PRIEST;
-	            creados++;
 	        }
-	    }
+            army[8].add(new Priest(0));
+            food -= FOOD_COST_PRIEST;
+            wood -= WOOD_COST_PRIEST;
+            iron -= IRON_COST_PRIEST;
+            mana -= MANA_COST_PRIEST;
+            creados++;
 
-	    System.out.println("Se han creado " + creados + " Priests");
+	    }
+	    if (creados > 0) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Se han creado " + creados + " Priest"
+	        );
+	    }
 	}
 
 	
