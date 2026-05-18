@@ -162,4 +162,12 @@ public interface Variables {
 	public final int[] CHANCE_ATTACK_ENEMY_UNITS = {10,20,30,40};
 	// percentage of waste that will be generated with respect to the cost of the units
 	public final int PERCENTATGE_WASTE = 70;
+	//parametros conexion
+	public final String LOCAL_URL = "jdbc:mysql://localhost:3306/civi_mnr?serverTimezone=UTC";
+	public final String LOCAL_USU = "root";
+	public final String LOCAL_PASS = "mysqlocal";
+	//parametros conexion
+	public final String REMOT_URL = "jdbc:mysql://localhost:3307/civi_mnr?serverTimezone=UTC";
+	public final String REMOT_USU = "pruebas";
+	public final String REMOT_PASS = "civil_mnr";
 	}
