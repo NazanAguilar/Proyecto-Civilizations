@@ -1,0 +1,253 @@
+package conexionbbdd;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import Proyecte_Civilizations.Variables;
+import Proyecte_Civilizations.Civilization;
+
+public class StartBattle {
+
+	private static final String url = Variables.LOCAL_URL;
+    private static final String usuario = Variables.LOCAL_USU;
+    private static final String pass = Variables.LOCAL_PASS;
+
+    public static void main(String[] args) {
+
+        loadUnits("ataque", 1);
+        loadUnits("defensa", 1);
+        loadUnits("especial", 1);
+
+    }
+
+//    public static Civilization loadCivi(int idcivi) {
+//    	
+//    	String consulta = "SELECT wood_amount, iron_amount, food_amount, mana_amount, "
+//    			+ "magicTower_counter, church_counter, farm_counter, smithy_counter, carpentry_counter, "
+//    			+ "technology_defense_level, technology_attack_level, battles_counter "
+//    			+ "FROM civilization_stats WHERE civilization_id = ?";
+//    	try {
+//
+//            // Cargar driver
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//
+//            // Crear conexión
+//            Connection conn = DriverManager.getConnection(url, usuario, pass);
+//
+//            // Consulta
+//            PreparedStatement psCons = conn.prepareStatement(consulta);
+//
+//            psCons.setInt(1, idcivi);
+//
+//            ResultSet rs = psCons.executeQuery();
+//
+//            while (rs.next()) {
+//                System.out.println("Wood - " + rs.getInt("wood_amount") + " Iron - " + rs.getInt("iron_amount") + " Food - " + rs.getInt("food_amount") + " Mana - " + rs.getInt("mana_amount") + 
+//                		" MagicTower - " + rs.getInt("magicTower_counter") + " Church - " + rs.getInt("church_counter") + " Farm - " + rs.getInt("farm_counter") + " Smithy - " + rs.getInt("smithy_counter") + "Carpentry - " + rs.getInt("carpentry_counter") +
+//                		" TechDefLvl - " + rs.getInt("technology_defense_level") + " TechAtaLvl - " + rs.getInt("technology_attack_level") + " Battles - " + rs.getInt("battles_counter"));
+//            }
+//            
+//            // Cerrar recursos
+//            rs.close();
+//            psCons.close();
+//            conn.close();
+//
+//        } catch (ClassNotFoundException e) {
+//
+//            System.out.println("Error al cargar driver");
+//            e.printStackTrace();
+//
+//        } catch (SQLException e) {
+//
+//            System.out.println("Error SQL");
+//            e.printStackTrace();
+//        }
+//		return null;
+//
+//    }
+
+    public static Civilization loadCivi(int idcivi) {
+
+        String consulta = "SELECT wood_amount, iron_amount, food_amount, mana_amount, "
+                + "magicTower_counter, church_counter, farm_counter, smithy_counter, carpentry_counter, "
+                + "technology_defense_level, technology_attack_level, battles_counter "
+                + "FROM civilization_stats WHERE civilization_id = ?";
+
+        Civilization civi = null;
+
+        try {
+
+            // Cargar driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Crear conexión
+            Connection conn = DriverManager.getConnection(url, usuario, pass);
+
+            // Consulta
+            PreparedStatement psCons = conn.prepareStatement(consulta);
+
+            psCons.setInt(1, idcivi);
+
+            ResultSet rs = psCons.executeQuery();
+
+            if (rs.next()) {
+
+                civi = new Civilization(
+
+                    rs.getInt("technology_defense_level"),
+                    rs.getInt("technology_attack_level"),
+                    rs.getInt("wood_amount"),
+                    rs.getInt("iron_amount"),
+                    rs.getInt("food_amount"),
+                    rs.getInt("mana_amount"),
+                    rs.getInt("magicTower_counter"),
+                    rs.getInt("church_counter"),
+                    rs.getInt("farm_counter"),
+                    rs.getInt("smithy_counter"),
+                    rs.getInt("carpentry_counter"),
+                    rs.getInt("battles_counter")
+                );
+
+            }
+
+            // Cerrar recursos
+            rs.close();
+            psCons.close();
+            conn.close();
+
+        } catch (ClassNotFoundException e) {
+
+            System.out.println("Error al cargar driver");
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+
+            System.out.println("Error SQL");
+            e.printStackTrace();
+        }
+
+        return civi;
+    }
+    
+    public static void loadUnits(String tabla, int idcivi) {
+
+    	String from = "";
+    	
+    	if (tabla == "ataque") {
+    		from = "attack_units_stats";
+    		
+    	} else if (tabla == "defensa") {
+    		from = "defense_units_stats";
+
+    		
+    	} else if (tabla == "especial") {
+    		from = "special_units_stats";
+    		
+    		
+    	}
+    	
+        String consulta = "SELECT civilization_id, type, experience FROM " + from + " WHERE civilization_id = ?";
+        String delete = "DELETE FROM " + from + " WHERE civilization_id = ?";
+
+        try {
+
+            // Cargar driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Crear conexión
+            Connection conn = DriverManager.getConnection(url, usuario, pass);
+
+            // Consulta
+            PreparedStatement psCons = conn.prepareStatement(consulta);
+
+            psCons.setInt(1, idcivi);
+
+            ResultSet rs = psCons.executeQuery();
+
+            System.out.println("\nTABLA: " + tabla);
+
+            while (rs.next()) {
+                System.out.println("idCivi - " + rs.getInt("civilization_id") + ", Tipo - " + rs.getString("type") + ", Exp - " + rs.getInt("experience"));
+            }
+
+            //Delete 
+            PreparedStatement psDel = conn.prepareStatement(delete);
+
+            psDel.setInt(1, idcivi);
+
+            int filasBorradas = psDel.executeUpdate();
+
+            System.out.println("Filas eliminadas: " + filasBorradas);
+
+            
+            // Cerrar recursos
+            rs.close();
+            psCons.close();
+            psDel.close();
+            conn.close();
+
+        } catch (ClassNotFoundException e) {
+
+            System.out.println("Error al cargar driver");
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+
+            System.out.println("Error SQL");
+            e.printStackTrace();
+        }
+    }
+    
+    public static void modifyLevel(int idCivi, String tipo ) {
+
+    	
+		try {
+	
+	        // Cargar Driver
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        System.out.println("Driver cargado correctamente");
+	
+	        // Crear conexi贸n con BBDD
+	        Connection conn = DriverManager.getConnection(url, usuario, pass);
+	        System.out.println("Conexi贸n creada correctamente");
+	
+            // Update SQL
+	        String update_level = "";
+	    	if (tipo == "ataque") {
+	    		update_level = "UPDATE civilization_stats "
+	            		+ "SET technology_attack_level = (technology_attack_level + 1) where civilization_id = ?";
+
+	    		
+	    	} else if (tipo == "defensa") {
+	    		update_level = "UPDATE civilization_stats "
+	            		+ "SET technology_defense_level = (technology_defense_level + 1) where civilization_id = ?";
+
+	    		
+	    	}
+            
+			PreparedStatement ps_update_count = conn.prepareStatement(update_level,ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+			
+
+			ps_update_count.setInt(1,idCivi);
+					
+			ps_update_count.executeUpdate();
+			
+			System.out.println("Se ha realizado el update correctamente. \n"+ps_update_count);
+			
+	    
+	    } catch (ClassNotFoundException e) {
+	
+			e.printStackTrace();
+			System.out.println("Error al cargar el driver: "+e);
+		}
+		catch (SQLException e) {
+			System.out.println("Error al realizar la conexi贸n");
+			e.printStackTrace();
+		}
+		
+	}
+    
+}
