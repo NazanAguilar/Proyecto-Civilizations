@@ -13,17 +13,17 @@ import Proyecte_Civilizations.Variables.*;
 public class UpdateDefense {
 
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	private static final String url = Variables.LOCAL_URL;
+    private static final String usuario = Variables.LOCAL_USU;
+    private static final String pass = Variables.LOCAL_PASS;
 
+    
+	public static void main(String[] args) {
+		
 	}
 	
 	public static void buyArrowTower() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-        String usuario = "root";
-        String pass = "mysqlocal";
-
         try {
 
             // Cargar Driver
@@ -70,10 +70,6 @@ public class UpdateDefense {
 	}
 
 	public static void buyCatapult() {
-	
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
 	
 	    try {
 	
@@ -126,10 +122,6 @@ public class UpdateDefense {
 
 	public static void buyRocketLauncherTower() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
-	
 	    try {
 	
 	        // Cargar Driver

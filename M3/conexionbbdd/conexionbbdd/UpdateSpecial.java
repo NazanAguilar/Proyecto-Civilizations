@@ -13,18 +13,16 @@ import Proyecte_Civilizations.Variables.*;
 
 public class UpdateSpecial {
 
+	private static final String url = Variables.LOCAL_URL;
+    private static final String usuario = Variables.LOCAL_USU;
+    private static final String pass = Variables.LOCAL_PASS;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 	
 	public static void buyMagician() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-        String usuario = "root";
-        String pass = "mysqlocal";
-
         try {
 
             // Cargar Driver
@@ -80,16 +78,10 @@ public class UpdateSpecial {
 		catch (SQLException e) {
 			System.out.println("Error al realizar la conexión");
 			e.printStackTrace();
-		}
-
-		
+		}		
 	}
 
 	public static void buyPriest() {
-	
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
 	
 	    try {
 	
@@ -140,6 +132,4 @@ public class UpdateSpecial {
 	
 		
 	}
-
-		
 }

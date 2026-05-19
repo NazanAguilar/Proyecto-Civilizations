@@ -11,7 +11,10 @@ import Proyecte_Civilizations.Variables.*;
 
 
 public class UpdateAttack {
-
+	
+	private static final String url = Variables.LOCAL_URL;
+    private static final String usuario = Variables.LOCAL_USU;
+    private static final String pass = Variables.LOCAL_PASS;
 
 	public static void main(String[] args) {
 		buySwordsman();
@@ -19,11 +22,7 @@ public class UpdateAttack {
 	
 	public static void buySwordsman() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-        String usuario = "root";
-        String pass = "mysqlocal";
-
-        try {
+	   try {
 
             // Cargar Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -78,10 +77,6 @@ public class UpdateAttack {
 	}
 
 	public static void buySpearman() {
-	
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
 	
 	    try {
 	
@@ -138,10 +133,6 @@ public class UpdateAttack {
 
 	public static void buyCrossbow() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
-	
 	    try {
 	
 	        // Cargar Driver
@@ -194,10 +185,6 @@ public class UpdateAttack {
 	
 	public static void buyCannon() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
-	
 	    try {
 	
 	        // Cargar Driver
@@ -248,8 +235,5 @@ public class UpdateAttack {
 	
 		
 	}
-
-
-	
 	
 }

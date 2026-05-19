@@ -12,18 +12,17 @@ import Proyecte_Civilizations.Variables.*;
 
 public class UpdateBuildings {
 
+	private static final String url = Variables.LOCAL_URL;
+    private static final String usuario = Variables.LOCAL_USU;
+    private static final String pass = Variables.LOCAL_PASS;
+
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 	}
 	
 	public static void buyFarm() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-        String usuario = "root";
-        String pass = "mysqlocal";
-
         try {
 
             // Cargar Driver
@@ -79,10 +78,6 @@ public class UpdateBuildings {
 	}
 
 	public static void buyCarpentry() {
-	
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
 	
 	    try {
 	
@@ -140,10 +135,6 @@ public class UpdateBuildings {
 
 	public static void buySmithy() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
-	
 	    try {
 	
 	        // Cargar Driver
@@ -201,10 +192,6 @@ public class UpdateBuildings {
 	
 	public static void buyChurch() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
-	
 	    try {
 	
 	        // Cargar Driver
@@ -266,10 +253,6 @@ public class UpdateBuildings {
 
 	public static void buyMagicTower() {
 		
-		String url = "jdbc:mysql://localhost/civi_mnr?serverTimezone=UTC";
-	    String usuario = "root";
-	    String pass = "mysqlocal";
-	
 	    try {
 	
 	        // Cargar Driver
@@ -321,8 +304,7 @@ public class UpdateBuildings {
 			System.out.println("Error al realizar la conexión");
 			e.printStackTrace();
 		}
-	
-		
+			
 	}
 	
 }
