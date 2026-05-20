@@ -2,10 +2,18 @@ package Proyecte_Civilizations;
 
 import java.util.ArrayList;
 import java.util.IllegalFormatCodePointException;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 import javax.swing.JOptionPane;
+import conexionbbdd.*;
 
-class Civilization implements Variables{
+public class Civilization implements Variables{
 	private int technologyDefense ;
 	private int technologyAtack ;
 	private int wood;
@@ -19,6 +27,10 @@ class Civilization implements Variables{
 	private int carpentry;
 	private int battles;
 	private ArrayList<MilitaryUnit>[] army;
+	private Timer battleTimer;
+	private Random random = new Random();
+
+    private boolean timersPaused = false;
 	public Civilization(int technologyDefense, int technologyAtack, int wood, int iron, int food, int mana,
 			int magicTower, int church, int farm, int smithy, int carpentry, int battles) {
 		super();
@@ -38,10 +50,12 @@ class Civilization implements Variables{
         for (int i = 0; i < army.length; i++) {
             army[i] = new ArrayList<MilitaryUnit>();
         }
+        
+        startAutomaticBattles();
 	}
 	public void newChurch(){
 		if (food < FOOD_COST_CHURCH || iron < IRON_COST_CHURCH
-		        || wood < WOOD_COST_CHURCH) {
+		        || wood < WOOD_COST_CHURCH|| mana < MANA_COST_CHURCH) {
 		    try {
 		        throw new ResourceException("No hay recursos para construir la iglesia");
 		    } catch (ResourceException e) {
@@ -53,6 +67,7 @@ class Civilization implements Variables{
 		    iron -= IRON_COST_CHURCH;
 		    wood -= WOOD_COST_CHURCH;
 		    mana -= MANA_COST_CHURCH;
+		    UpdateBuildings.buyChurch();
 		}
 
 	}
@@ -70,6 +85,7 @@ class Civilization implements Variables{
 		    food -= FOOD_COST_MAGICTOWER;
 		    iron -= IRON_COST_MAGICTOWER;
 		    wood -= WOOD_COST_MAGICTOWER;
+		    UpdateBuildings.buyMagicTower();
 		}
 	}
 	public void newFarm() {
@@ -86,6 +102,7 @@ class Civilization implements Variables{
 		    food -= FOOD_COST_FARM;
 		    iron -= IRON_COST_FARM;
 		    wood -= WOOD_COST_FARM;
+		    UpdateBuildings.buyFarm();
 		}
 	}
 	public void newCarpentry() {
@@ -102,6 +119,7 @@ class Civilization implements Variables{
 		    food -= FOOD_COST_CARPENTRY;
 		    iron -= IRON_COST_CARPENTRY;
 		    wood -= WOOD_COST_CARPENTRY;
+		    UpdateBuildings.buyCarpentry();
 		}
 	}
 	public void newSmithy() {	
@@ -118,6 +136,7 @@ class Civilization implements Variables{
 		    food -= FOOD_COST_SMITHY;
 		    iron -= IRON_COST_SMITHY;
 		    wood -= WOOD_COST_SMITHY;
+		    UpdateBuildings.buySmithy();
 		}
 	}
 	public void upgradeTechnologyDefense() {
@@ -134,6 +153,7 @@ class Civilization implements Variables{
 			technologyDefense +=1;
 			iron -= precioiron;
 			wood -= preciowood;
+			StartBattle.modifyLevel(1,"defensa");
 		}
 	}
 	public void upgradeTechnologyAttack() {
@@ -150,6 +170,7 @@ class Civilization implements Variables{
 			technologyAtack +=1;
 			iron -= precioiron;
 			wood -= preciowood;
+			StartBattle.modifyLevel(1,"ataque");
 		}
 	}
 	
@@ -173,7 +194,7 @@ class Civilization implements Variables{
 				wood -= WOOD_COST_SWORDSMAN;
 				iron -= IRON_COST_SWORDSMAN;
 				creados +=1;
-
+				UpdateAttack.buySwordsman();
 			}
 		}
 	    if (creados > 0) {
@@ -204,6 +225,7 @@ class Civilization implements Variables{
 				wood -= WOOD_COST_SPEARMAN;
 				iron -= IRON_COST_SPEARMAN;
 				creados +=1;
+				UpdateAttack.buySpearman();
 			}
 		}
 	    if (creados > 0) {
@@ -233,6 +255,7 @@ class Civilization implements Variables{
 				wood -= WOOD_COST_CROSSBOW;
 				iron -= IRON_COST_CROSSBOW;
 				creados +=1;
+				UpdateAttack.buyCrossbow();
 			}
 		}
 	    if (creados > 0) {
@@ -262,6 +285,7 @@ class Civilization implements Variables{
 				wood -= WOOD_COST_CANNON;
 				iron -= IRON_COST_CANNON;
 				creados +=1;
+				UpdateAttack.buyCannon();
 			}
 		}
 	    if (creados > 0) {
@@ -291,6 +315,7 @@ class Civilization implements Variables{
 				wood -= WOOD_COST_ARROWTOWER;
 				iron -= IRON_COST_ARROWTOWER;
 				creados +=1;
+				UpdateDefense.buyArrowTower();
 			}
 		}
 	    if (creados > 0) {
@@ -320,6 +345,7 @@ class Civilization implements Variables{
 			wood -= WOOD_COST_CATAPULT;
 			iron -= IRON_COST_CATAPULT;
 			creados +=1;
+			UpdateDefense.buyCatapult();
 
 		}
 	    if (creados > 0) {
@@ -360,6 +386,7 @@ class Civilization implements Variables{
 	        iron -= IRON_COST_ROCKETLAUNCHERTOWER;
 
 	        creados++;
+	        UpdateDefense.buyArrowTower();
 	    }
 
 	    if (creados > 0) {
@@ -391,6 +418,7 @@ class Civilization implements Variables{
 			iron -= IRON_COST_SPEARMAN;
 			mana -= MANA_COST_MAGICIAN;
 			creados +=1;
+			UpdateSpecial.buyMagician();
 
 		}
 	    if (creados > 0) {
@@ -435,7 +463,7 @@ class Civilization implements Variables{
             iron -= IRON_COST_PRIEST;
             mana -= MANA_COST_PRIEST;
             creados++;
-
+            UpdateSpecial.buyPriest();
 	    }
 	    if (creados > 0) {
 	        JOptionPane.showMessageDialog(
@@ -488,8 +516,232 @@ class Civilization implements Variables{
 	    System.out.printf("%-12d %-12d %-12d %-12d\n",
 	            farm * 8000, carpentry * 5000, smithy * 1500, magicTower * 0);
 	}
+    private void pauseAllTimers() {
+        timersPaused = true;
+    }
 
+    private void resumeAllTimers() {
+        timersPaused = false;
+    }
 
+	private void startAutomaticBattles() {
+
+	    battleTimer = new Timer();
+
+	    TimerTask battleTask = new TimerTask() {
+	        @Override
+	        public void run() {
+
+	            if (timersPaused) return; 
+
+	            try {
+	                ArrayList<MilitaryUnit> playerArmy = getCompleteArmy();
+	                if (playerArmy.size() <= 0) return;
+
+	                ArrayList<MilitaryUnit> enemyArmy = generateBalancedEnemyArmy(playerArmy.size());
+
+	                Battle battle = new Battle(playerArmy, enemyArmy);
+	                battle.Batalla();
+	                battles++;
+
+	                pauseAllTimers();
+
+	                showBattleWindow(
+	                    battle.getBattleDevelopment(),
+	                    battle.getBattleReport(battles)
+	                );
+
+	                resumeAllTimers();
+
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    };
+
+	    battleTimer.scheduleAtFixedRate(battleTask, 60000, 60000);
+
+	    TimerTask threatTask = new TimerTask() {
+	        @Override
+	        public void run() {
+
+	            if (timersPaused) return;
+
+	            ArrayList<MilitaryUnit> playerArmy = getCompleteArmy();
+	            if (playerArmy.size() <= 0) return;
+
+	            ArrayList<MilitaryUnit> enemyArmy = generateBalancedEnemyArmy(playerArmy.size());
+
+	            showThreatWindow(enemyArmy);
+	        }
+	    };
+
+	    battleTimer.scheduleAtFixedRate(threatTask, 45000, 60000);
+	}
+
+	
+	private ArrayList<MilitaryUnit> getCompleteArmy() {
+
+	    ArrayList<MilitaryUnit> completeArmy = new ArrayList<>();
+
+	    for(int i = 0; i < army.length; i++) {
+	        completeArmy.addAll(army[i]);
+	    }
+
+	    return completeArmy;
+	}
+	
+	private ArrayList<MilitaryUnit> generateBalancedEnemyArmy(int playerUnits) {
+
+	    ArrayList<MilitaryUnit> enemyArmy = new ArrayList<>();
+
+	    int minUnits = Math.max(1, playerUnits - 5);
+	    int maxUnits = playerUnits + 5;
+
+	    int enemyUnits = random.nextInt((maxUnits - minUnits) + 1) + minUnits;
+
+	    for(int i = 0; i < enemyUnits; i++) {
+
+	        int type = random.nextInt(4);
+
+	        switch(type) {
+
+	            case 0:
+	                enemyArmy.add(
+	                    new Swordsam(
+	                        ARMOR_SWORDSMAN +
+	                        (PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY * technologyDefense),
+
+	                        BASE_DAMAGE_SWORDSMAN +
+	                        (PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY * technologyAtack)
+	                    )
+	                );
+	                break;
+
+	            case 1:
+	                enemyArmy.add(
+	                    new Spearman(
+	                        ARMOR_SPEARMAN +
+	                        (PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY * technologyDefense),
+
+	                        BASE_DAMAGE_SPEARMAN +
+	                        (PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY * technologyAtack)
+	                    )
+	                );
+	                break;
+
+	            case 2:
+	                enemyArmy.add(
+	                    new Crossbow(
+	                        ARMOR_CROSSBOW +
+	                        (PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY * technologyDefense),
+
+	                        BASE_DAMAGE_CROSSBOW +
+	                        (PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY * technologyAtack)
+	                    )
+	                );
+	                break;
+
+	            case 3:
+	                enemyArmy.add(
+	                    new Cannon(
+	                        ARMOR_CANNON +
+	                        (PLUS_ARMOR_CANNON_BY_TECHNOLOGY * technologyDefense),
+
+	                        BASE_DAMAGE_CANNON +
+	                        (PLUS_ATTACK_CANNON_BY_TECHNOLOGY * technologyAtack)
+	                    )
+	                );
+	                break;
+	        }
+	    }
+
+	    return enemyArmy;
+	}
+	
+	private void showBattleWindow(String development, String report) {
+
+	    JFrame frame = new JFrame("BATALLA EN CURSO");
+
+	    frame.setSize(900, 650);
+	    frame.setLocationRelativeTo(null);
+
+	    JTextArea textArea = new JTextArea();
+
+	    textArea.setEditable(false);
+	    textArea.setLineWrap(true);
+	    textArea.setWrapStyleWord(true);
+
+	    textArea.setBackground(new java.awt.Color(30, 30, 30));
+	    textArea.setForeground(java.awt.Color.WHITE);
+	    textArea.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+
+	    String text = "===== DESARROLLO DE BATALLA =====\n\n" +
+	                  development +
+	                  "\n\n" +
+	                  report;
+
+	    textArea.setText(text);
+
+	    JScrollPane scroll = new JScrollPane(textArea);
+	    frame.add(scroll);
+
+	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    frame.setVisible(true);
+
+	    while (frame.isVisible()) {
+	        try { Thread.sleep(200); } catch (Exception e) {}
+	    }
+	}
+
+	private void showThreatWindow(ArrayList<MilitaryUnit> enemyArmy) {
+
+	    JFrame frame = new JFrame("NEW THREAT COMING");
+
+	    frame.setSize(350, 250);
+	    frame.setLocationRelativeTo(null);
+	    frame.setResizable(false);
+	    frame.setAlwaysOnTop(true);
+	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+	    JTextArea text = new JTextArea();
+	    text.setEditable(false);
+	    text.setBackground(new java.awt.Color(0, 0, 0));
+	    text.setForeground(java.awt.Color.WHITE);
+	    text.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
+
+	    int swords = 0, spears = 0, cross = 0, cannons = 0;
+
+	    for (MilitaryUnit u : enemyArmy) {
+	        if (u instanceof Swordsam) swords++;
+	        if (u instanceof Spearman) spears++;
+	        if (u instanceof Crossbow) cross++;
+	        if (u instanceof Cannon) cannons++;
+	    }
+
+	    String msg = "   NEW THREAT COMING\n\n" +
+	                 "Swordsman: " + swords + "\n" +
+	                 "Spearman: " + spears + "\n" +
+	                 "Crossbow: " + cross + "\n" +
+	                 "Cannon: " + cannons + "\n";
+
+	    text.setText(msg);
+
+	    JScrollPane scroll = new JScrollPane(text);
+	    frame.add(scroll);
+
+	    frame.setVisible(true);
+
+	    pauseAllTimers();
+
+	    while (frame.isVisible()) {
+	        try { Thread.sleep(200); } catch (Exception e) {}
+	    }
+
+	    resumeAllTimers();
+	}
+
+	
 	public int getTechnologyDefense() {
 		return technologyDefense;
 	}
@@ -706,5 +958,43 @@ class Civilization implements Variables{
         return UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST +
                UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST * technologyAtack;
     }
-}
+    
+    public void startResourceTimer(TopPanel topPanel) 
+    {
+        Timer timer = new Timer();
 
+        TimerTask task = new TimerTask() {
+        	public void run() {
+
+        	    if (timersPaused) return; // ⛔ DETIENE GENERACIÓN
+
+        	    int baseFood = CIVILIZATION_FOOD_GENERATED;
+        	    int baseWood = CIVILIZATION_WOOD_GENERATED;
+        	    int baseIron = CIVILIZATION_IRON_GENERATED;
+        	    
+        	    double foodMultiplier = 1 + (0.10 * farm);
+        	    double woodMultiplier = 1 + (0.10 * carpentry);
+        	    double ironMultiplier = 1 + (0.10 * smithy);
+
+        	    int foodGen = (int)(baseFood * foodMultiplier);
+        	    int woodGen = (int)(baseWood * woodMultiplier);
+        	    int ironGen = (int)(baseIron * ironMultiplier);
+
+        	    int manaGen = 0;
+        	    if(magicTower > 0) {
+        	        manaGen+= (200*magicTower);
+        	    }
+
+        	    food += foodGen/60;
+        	    wood += woodGen/60;
+        	    iron += ironGen/60;
+        	    mana += manaGen/60;
+
+        	    topPanel.refresh();
+        	}
+
+        };
+
+        timer.schedule(task, 0, 1000);
+    }
+}
