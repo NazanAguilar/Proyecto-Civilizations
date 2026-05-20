@@ -66,6 +66,7 @@ public class UpdateBuildings {
 			
             // Cerrar recursos
             conn.close();
+            ps_update.close();
             
         } catch (ClassNotFoundException e) {
 
@@ -126,7 +127,8 @@ public class UpdateBuildings {
 			
             // Cerrar recursos
             conn.close();
-
+            ps_update.close();
+            
 	    } catch (ClassNotFoundException e) {
 	
 			e.printStackTrace();
@@ -187,7 +189,7 @@ public class UpdateBuildings {
 			
             // Cerrar recursos
             conn.close();
-
+            ps_update.close();
             
 	    } catch (ClassNotFoundException e) {
 	
@@ -252,7 +254,7 @@ public class UpdateBuildings {
 	    
             // Cerrar recursos
             conn.close();
-
+            ps_update.close();
             
 	    } catch (ClassNotFoundException e) {
 	
@@ -313,7 +315,7 @@ public class UpdateBuildings {
 
             // Cerrar recursos
             conn.close();
-
+            ps_update.close();
             
 	    } catch (ClassNotFoundException e) {
 	

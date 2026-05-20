@@ -17,10 +17,6 @@ public class StartBattle {
 
     public static void main(String[] args) {
 
-        loadUnits("ataque", 1);
-        loadUnits("defensa", 1);
-        loadUnits("especial", 1);
-
     }
 
 
@@ -194,7 +190,7 @@ public class StartBattle {
 			
             // Cerrar recursos
             conn.close();
-
+            ps_update_count.close();
 	    
 	    } catch (ClassNotFoundException e) {
 	
@@ -237,6 +233,7 @@ public class StartBattle {
 	    
             // Cerrar recursos
             conn.close();
+            ps_update_count.close();
 
 	    } catch (ClassNotFoundException e) {
 	
@@ -248,5 +245,47 @@ public class StartBattle {
 			e.printStackTrace();
 		}
 		
+	}
+    
+    public static int loadNumBattle() {
+    	
+    	int numBat = 0 ;
+
+        String consulta = "SELECT id_battle FROM battle_log order by id_battle desc limit 1;";
+        
+        try {
+
+            // Cargar driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Crear conexión
+            Connection conn = DriverManager.getConnection(url, usuario, pass);
+
+            // Consulta
+            PreparedStatement psCons = conn.prepareStatement(consulta);
+
+            ResultSet rs = psCons.executeQuery();
+
+            while (rs.next()) {
+                numBat = rs.getInt("id_battle");
+            }
+            // Cerrar recursos
+            rs.close();
+            psCons.close();
+            conn.close();
+
+        } catch (ClassNotFoundException e) {
+
+            System.out.println("Error al cargar driver");
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+
+            System.out.println("Error SQL");
+            e.printStackTrace();
+        }
+            
+    	return numBat;
+    	
 	}
 }

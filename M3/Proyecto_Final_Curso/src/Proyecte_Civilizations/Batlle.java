@@ -2,6 +2,9 @@ package Proyecte_Civilizations;
 
 import java.util.ArrayList;
 
+import conexionbbdd.EndBattle;
+import conexionbbdd.StartBattle;
+
 class Battle implements Variables{
 
     private ArrayList<MilitaryUnit> civilizationArmy;
@@ -196,7 +199,7 @@ class Battle implements Variables{
     //Metodos creados 
 
     public String getBattleDevelopment() {
-        return battleDevelopment;
+        return battleDevelopment; // Datos de Batalla
     }
     
     public String getBattleReport(int battles) {
@@ -558,6 +561,7 @@ class Battle implements Variables{
 
         int comienzo = (int)(Math.random() * 2) + 1;
         int ronda = 1;
+        int numBat = StartBattle.loadNumBattle();
 
         battleDevelopment += "===== INICIO DE LA BATALLA =====\n";
 
@@ -589,15 +593,19 @@ class Battle implements Variables{
                 int idxDefensor = (int)(Math.random() * armies[1][grupoDefensor].size());
                 MilitaryUnit defensor = armies[1][grupoDefensor].get(idxDefensor);
 
-                int daño = atacante.attack();
-                defensor.takeDamage(daño);
+                int dano = atacante.attack();
+                defensor.takeDamage(dano);
 
                 battleDevelopment += "Civilización: " + atacante.getClass().getSimpleName() +
                                      " ataca a " + defensor.getClass().getSimpleName() +
-                                     " por " + daño + " daño.\n";
-
+                                     " por " + dano + " daño.\n";
+                String logAt = "Civilización: " + atacante.getClass().getSimpleName() + " ataca a " + defensor.getClass().getSimpleName() + " por " + dano + " daño.\n";
+                EndBattle.insertBattleLogs(1,numBat+1,logAt,2);
                 if (defensor.getActualArmor() <= 0) {
                     battleDevelopment += "nidad enemiga eliminada.\n";
+                    String logAt2 = "Unidad enemiga eliminada.";
+                    EndBattle.insertBattleLogs(1,numBat+1,logAt2,2);
+                    
                     enemyDrops++;
                     addWaste(defensor);
                     armies[1][grupoDefensor].remove(defensor);
@@ -616,19 +624,23 @@ class Battle implements Variables{
                     int idxNuevo = (int)(Math.random() * armies[1][grupoDefensor].size());
                     MilitaryUnit nuevoDefensor = armies[1][grupoDefensor].get(idxNuevo);
 
-                    int dañoExtra = atacante.attack();
-                    nuevoDefensor.takeDamage(dañoExtra);
+                    int danoExtra = atacante.attack();
+                    nuevoDefensor.takeDamage(danoExtra);
 
                     battleDevelopment += "Civilizacion: " + atacante.getClass().getSimpleName() +
                                          " golpea a " + nuevoDefensor.getClass().getSimpleName() +
-                                         " por " + dañoExtra + " daño.\n";
-
+                                         " por " + danoExtra + " daño.\n";
+                    String logAt3 = "Civilizacion: " + atacante.getClass().getSimpleName() + " golpea a " + nuevoDefensor.getClass().getSimpleName() + " por " + danoExtra + " daño.\n";
+                    EndBattle.insertBattleLogs(1,numBat+1,logAt3,2);
+                    
                     if (nuevoDefensor.getActualArmor() <= 0) {
                         enemyDrops++;
                         addWaste(nuevoDefensor);
                         armies[1][grupoDefensor].remove(nuevoDefensor);
                         actualNumberUnitsEnemy[grupoDefensor]--;
                         battleDevelopment += "Unidad enemiga eliminada en ataque extra.\n";
+                        String logAt4 = "Unidad enemiga eliminada en ataque extra.";
+                        EndBattle.insertBattleLogs(1,numBat+1,logAt4,2);
                     }
                 }
 
@@ -650,15 +662,19 @@ class Battle implements Variables{
                 int idxDefensor = (int)(Math.random() * armies[0][grupoDefensor].size());
                 MilitaryUnit defensor = armies[0][grupoDefensor].get(idxDefensor);
 
-                int daño = atacante.attack();
-                defensor.takeDamage(daño);
+                int dano = atacante.attack();
+                defensor.takeDamage(dano);
 
                 battleDevelopment += "Enemigo: " + atacante.getClass().getSimpleName() +
                                      " ataca a " + defensor.getClass().getSimpleName() +
-                                     " por " + daño + " daño.\n";
+                                     " por " + dano + " daño.\n";
+                String logEn = "Enemigo: " + atacante.getClass().getSimpleName() + " ataca a " + defensor.getClass().getSimpleName() + " por " + dano + " daño.\n";
+                EndBattle.insertBattleLogs(2,numBat+1,logEn,1);
 
                 if (defensor.getActualArmor() <= 0) {
                     battleDevelopment += "Unidad de la civilización eliminada.\n";
+                    String logEn2 = "Unidad de la civilización eliminada.";
+                    EndBattle.insertBattleLogs(2,numBat+1,logEn2,1);
                     civilizationDrops++;
                     addWaste(defensor);
                     armies[0][grupoDefensor].remove(defensor);
@@ -677,19 +693,23 @@ class Battle implements Variables{
                     int idxNuevo = (int)(Math.random() * armies[0][grupoDefensor].size());
                     MilitaryUnit nuevoDefensor = armies[0][grupoDefensor].get(idxNuevo);
 
-                    int dañoExtra = atacante.attack();
-                    nuevoDefensor.takeDamage(dañoExtra);
+                    int danoExtra = atacante.attack();
+                    nuevoDefensor.takeDamage(danoExtra);
 
                     battleDevelopment += "Enemigo: " + atacante.getClass().getSimpleName() +
                                          " golpea a " + nuevoDefensor.getClass().getSimpleName() +
-                                         " por " + dañoExtra + " daño.\n";
-
+                                         " por " + danoExtra + " daño.\n";
+                    String logEn3 = "Enemigo: " + atacante.getClass().getSimpleName() + " golpea a " + nuevoDefensor.getClass().getSimpleName() + " por " + danoExtra + " daño.\n";
+                    EndBattle.insertBattleLogs(2,numBat+1,logEn3,1);
+                    
                     if (nuevoDefensor.getActualArmor() <= 0) {
                         civilizationDrops++;
                         addWaste(nuevoDefensor);
                         armies[0][grupoDefensor].remove(nuevoDefensor);
                         actualNumberUnitsCivilization[grupoDefensor]--;
                         battleDevelopment += "Unidad de la civilización eliminada en ataque extra.\n";
+                        String logEn4 = "Unidad de la civilización eliminada en ataque extra.";
+                        EndBattle.insertBattleLogs(2,numBat+1,logEn4,1);
                     }
                 }
 

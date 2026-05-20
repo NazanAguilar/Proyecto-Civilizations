@@ -59,7 +59,7 @@ public class EndBattle {
 			
             // Cerrar recursos
             conn.close();
-
+            ps_update_count.close();
             
 	    
 	    } catch (ClassNotFoundException e) {
@@ -103,6 +103,7 @@ public class EndBattle {
 		
             // Cerrar recursos
             conn.close();
+            ps_insert.close();
 
 	    } catch (ClassNotFoundException e) {
 	    	
@@ -144,7 +145,7 @@ public class EndBattle {
 
             // Cerrar recursos
             conn.close();
-
+            ps_insert.close();
             
 	    } catch (ClassNotFoundException e) {
 	    	
@@ -186,7 +187,7 @@ public class EndBattle {
 			
             // Cerrar recursos
             conn.close();
-
+            ps_insert.close();
             
 	    } catch (ClassNotFoundException e) {
 	    	
@@ -231,6 +232,7 @@ public class EndBattle {
 			
             // Cerrar recursos
             conn.close();
+            ps_insert.close();
 
             
 	    } catch (ClassNotFoundException e) {
@@ -244,7 +246,7 @@ public class EndBattle {
 		}
 	}
 
-	public static void insertBattleLogs(int idCivi, int numBat, int numLine, int log, int idCiviEne) {
+	public static void insertBattleLogs(int idCivi, int numBat, String log, int idCiviEne) {
 	
 	    try {
 	
@@ -257,23 +259,23 @@ public class EndBattle {
 	        System.out.println("Conexión creada correctamente");
 
 		// Insert SQL
-			String insert = "INSERT INTO battle_log (civilization_id, id_battle, num_line, log_entry, civ_enem) "
-					+ "	VALUES (?, ?, ?, ?, ?);";
+			String insert = "INSERT INTO battle_log (civilization_id, id_battle, log_entry, civ_enem) "
+					+ "	VALUES (?, ?, ?, ?);";
 			PreparedStatement ps_insert = conn.prepareStatement(insert,ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 			
 
 			ps_insert.setInt(1, idCivi);
 			ps_insert.setInt(2, numBat);
-			ps_insert.setInt(3, numLine);
-			ps_insert.setInt(4, log);
-			ps_insert.setInt(5, idCiviEne);
+			ps_insert.setString(3, log);
+			ps_insert.setInt(4, idCiviEne);
 
 			
 			ps_insert.executeUpdate();
 			
             // Cerrar recursos
             conn.close();
-
+            ps_insert.close();
+            
             
 	    } catch (ClassNotFoundException e) {
 	    	
