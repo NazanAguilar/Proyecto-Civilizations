@@ -21,6 +21,7 @@ public class MainWindow extends JFrame {
 
         topPanel = new TopPanel(civ);
         add(topPanel, BorderLayout.NORTH);
+        civ.startResourceTimer(topPanel);
 
         add(new CenterPanel(), BorderLayout.CENTER);
         add(new BottomPanel(civ, this), BorderLayout.SOUTH);

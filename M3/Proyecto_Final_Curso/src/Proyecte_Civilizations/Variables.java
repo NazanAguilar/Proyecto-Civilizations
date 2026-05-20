@@ -167,7 +167,7 @@ public interface Variables {
 	public final String LOCAL_USU = "root";
 	public final String LOCAL_PASS = "mysqlocal";
 	//parametros conexion
-	public final String REMOT_URL = "jdbc:mysql://localhost:3307/civi_mnr?serverTimezone=UTC";
+	public final String REMOT_URL = "jdbc:mysql://localhost:3307/civi_mnr?serverTimezone=UTC&useSSL=false";
 	public final String REMOT_USU = "pruebas";
 	public final String REMOT_PASS = "civil_mnr";
 	}

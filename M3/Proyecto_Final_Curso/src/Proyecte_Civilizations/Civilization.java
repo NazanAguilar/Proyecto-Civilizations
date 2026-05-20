@@ -2,6 +2,8 @@ package Proyecte_Civilizations;
 
 import java.util.ArrayList;
 import java.util.IllegalFormatCodePointException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 import conexionbbdd.*;
@@ -720,6 +722,50 @@ public class Civilization implements Variables{
     {
         return UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST +
                UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST * technologyAtack;
+    }
+    
+    public void startResourceTimer(TopPanel topPanel) 
+    {
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            public void run() 
+            {
+
+            	int baseFood = CIVILIZATION_FOOD_GENERATED;
+                int baseWood = CIVILIZATION_WOOD_GENERATED;
+                int baseIron = CIVILIZATION_IRON_GENERATED;
+                
+                double foodMultiplier = 1 + (0.10 * farm);
+                double woodMultiplier = 1 + (0.10 * carpentry);
+                double ironMultiplier = 1 + (0.10 * smithy);
+
+                int foodGen = (int)(baseFood * foodMultiplier);
+                int woodGen = (int)(baseWood * woodMultiplier);
+                int ironGen = (int)(baseIron * ironMultiplier);
+
+                int manaGen = 0;
+                if(magicTower > 0) {
+                	manaGen+= (200*magicTower);
+                }
+
+                food += foodGen/60;
+                wood += woodGen/60;
+                iron += ironGen/60;
+                mana += manaGen/60;
+
+                topPanel.refresh();
+
+                System.out.println("Generado -> Food: " + foodGen/60 + 
+                                   " Wood: " + woodGen/60+ 
+                                   " Iron: " + ironGen/60 + 
+                                   " Mana: " + manaGen/60);
+                //llamar a civi
+                StartBattle.updateIniResources(1,wood,iron, food, mana);
+            }
+        };
+
+        timer.schedule(task, 0, 1000);
     }
 }
 

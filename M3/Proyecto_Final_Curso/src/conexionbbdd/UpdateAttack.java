@@ -12,9 +12,9 @@ import Proyecte_Civilizations.Variables.*;
 
 public class UpdateAttack {
 	
-	private static final String url = Variables.LOCAL_URL;
-    private static final String usuario = Variables.LOCAL_USU;
-    private static final String pass = Variables.LOCAL_PASS;
+	private static final String url = Variables.REMOT_URL;
+    private static final String usuario = Variables.REMOT_USU;
+    private static final String pass = Variables.REMOT_PASS;
 
 	public static void main(String[] args) {
 	}

@@ -11,9 +11,9 @@ import Proyecte_Civilizations.Civilization;
 
 public class StartBattle {
 
-	private static final String url = Variables.LOCAL_URL;
-    private static final String usuario = Variables.LOCAL_USU;
-    private static final String pass = Variables.LOCAL_PASS;
+	private static final String url = Variables.REMOT_URL;
+    private static final String usuario = Variables.REMOT_USU;
+    private static final String pass = Variables.REMOT_PASS;
 
     public static void main(String[] args) {
 
@@ -23,51 +23,6 @@ public class StartBattle {
 
     }
 
-//    public static Civilization loadCivi(int idcivi) {
-//    	
-//    	String consulta = "SELECT wood_amount, iron_amount, food_amount, mana_amount, "
-//    			+ "magicTower_counter, church_counter, farm_counter, smithy_counter, carpentry_counter, "
-//    			+ "technology_defense_level, technology_attack_level, battles_counter "
-//    			+ "FROM civilization_stats WHERE civilization_id = ?";
-//    	try {
-//
-//            // Cargar driver
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//
-//            // Crear conexión
-//            Connection conn = DriverManager.getConnection(url, usuario, pass);
-//
-//            // Consulta
-//            PreparedStatement psCons = conn.prepareStatement(consulta);
-//
-//            psCons.setInt(1, idcivi);
-//
-//            ResultSet rs = psCons.executeQuery();
-//
-//            while (rs.next()) {
-//                System.out.println("Wood - " + rs.getInt("wood_amount") + " Iron - " + rs.getInt("iron_amount") + " Food - " + rs.getInt("food_amount") + " Mana - " + rs.getInt("mana_amount") + 
-//                		" MagicTower - " + rs.getInt("magicTower_counter") + " Church - " + rs.getInt("church_counter") + " Farm - " + rs.getInt("farm_counter") + " Smithy - " + rs.getInt("smithy_counter") + "Carpentry - " + rs.getInt("carpentry_counter") +
-//                		" TechDefLvl - " + rs.getInt("technology_defense_level") + " TechAtaLvl - " + rs.getInt("technology_attack_level") + " Battles - " + rs.getInt("battles_counter"));
-//            }
-//            
-//            // Cerrar recursos
-//            rs.close();
-//            psCons.close();
-//            conn.close();
-//
-//        } catch (ClassNotFoundException e) {
-//
-//            System.out.println("Error al cargar driver");
-//            e.printStackTrace();
-//
-//        } catch (SQLException e) {
-//
-//            System.out.println("Error SQL");
-//            e.printStackTrace();
-//        }
-//		return null;
-//
-//    }
 
     public static Civilization loadCivi(int idcivi) {
 
@@ -249,5 +204,43 @@ public class StartBattle {
 		}
 		
 	}
-    
+    public static void updateIniResources(int idCivi, int wood, int iron, int food, int mana) {
+        try {
+        	
+	        // Cargar Driver
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        System.out.println("Driver cargado correctamente");
+	
+	        // Crear conexión con BBDD
+	        Connection conn = DriverManager.getConnection(url, usuario, pass);
+	        System.out.println("Conexión creada correctamente");
+	
+            // Update SQL, tras cada batalla sumamos 1 al contador de batallas
+	        String update_counter = "UPDATE civilization_stats "
+            		+ "SET wood_amount = ?, iron_amount = ?, food_amount = ?, mana_amount = ?  where civilization_id = ?";
+            
+			PreparedStatement ps_update_count = conn.prepareStatement(update_counter,ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+			
+			ps_update_count.setInt(1,wood);
+			ps_update_count.setInt(2,iron);
+			ps_update_count.setInt(3,food);
+			ps_update_count.setInt(4,mana);
+			ps_update_count.setInt(5,idCivi);
+					
+			ps_update_count.executeUpdate();
+			
+			System.out.println("Se ha realizado el update correctamente. \n"+ps_update_count);
+			
+	    
+	    } catch (ClassNotFoundException e) {
+	
+			e.printStackTrace();
+			System.out.println("Error al cargar el driver: "+e);
+		}
+		catch (SQLException e) {
+			System.out.println("Error al realizar la conexión");
+			e.printStackTrace();
+		}
+		
+	}
 }
