@@ -37,7 +37,7 @@ public class UpdateDefense {
             // Update SQL
             String update = "UPDATE civilization_stats "
             		+ "SET wood_amount = (wood_amount - ?) where civilization_id = ?"
-            		+ "and wood_amount >= ? ";
+            		+ " and wood_amount >= ? ";
             
 			PreparedStatement ps_update = conn.prepareStatement(update,ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 			
@@ -56,6 +56,11 @@ public class UpdateDefense {
 			}
 			
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_update);
+			
+            // Cerrar recursos
+            conn.close();
+
+            
         } catch (ClassNotFoundException e) {
 
 			e.printStackTrace();
@@ -106,6 +111,10 @@ public class UpdateDefense {
 			}
 
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_update);
+			
+            // Cerrar recursos
+            conn.close();
+
 
 	    } catch (ClassNotFoundException e) {
 	
@@ -134,7 +143,7 @@ public class UpdateDefense {
 	
             // Update SQL
             String update = "UPDATE civilization_stats "
-            		+ "SET wood_amount = (wood_amount - ?),"
+            		+ "SET wood_amount = (wood_amount - ?), "
             		+ "iron_amount = (iron_amount - ?) where civilization_id = ? "
             		+ "and wood_amount >= ? "
             		+ "and iron_amount >= ?";
@@ -158,6 +167,11 @@ public class UpdateDefense {
 			}
 			
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_update);
+			
+            // Cerrar recursos
+            conn.close();
+
+            
 	    } catch (ClassNotFoundException e) {
 	
 			e.printStackTrace();

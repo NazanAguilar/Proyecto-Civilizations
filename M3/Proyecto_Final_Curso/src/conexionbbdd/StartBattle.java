@@ -192,6 +192,9 @@ public class StartBattle {
 			
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_update_count);
 			
+            // Cerrar recursos
+            conn.close();
+
 	    
 	    } catch (ClassNotFoundException e) {
 	
@@ -232,6 +235,9 @@ public class StartBattle {
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_update_count);
 			
 	    
+            // Cerrar recursos
+            conn.close();
+
 	    } catch (ClassNotFoundException e) {
 	
 			e.printStackTrace();

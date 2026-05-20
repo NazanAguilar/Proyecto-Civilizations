@@ -35,9 +35,9 @@ public class UpdateSpecial {
 
             // Update SQL
             String update = "UPDATE civilization_stats "
-            		+ "SET food_amount = (food_amount - ?),"
-            		+ "wood_amount = (wood_amount - ?),"
-            		+ "iron_amount = (iron_amount - ?)," 
+            		+ "SET food_amount = (food_amount - ?), "
+            		+ "wood_amount = (wood_amount - ?), "
+            		+ "iron_amount = (iron_amount - ?), " 
             		+ "mana_amount = (mana_amount - ?) where civilization_id = ? "
             		+ "and food_amount >= ? "
             		+ "and wood_amount >= ? "
@@ -70,6 +70,11 @@ public class UpdateSpecial {
 			
 			
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_update);
+			
+            // Cerrar recursos
+            conn.close();
+
+            
         } catch (ClassNotFoundException e) {
 
 			e.printStackTrace();
@@ -95,7 +100,7 @@ public class UpdateSpecial {
 	
             // Update SQL
             String update = "UPDATE civilization_stats "
-            		+ "SET food_amount = (food_amount - ?),"
+            		+ "SET food_amount = (food_amount - ?), "
             		+ "mana_amount = (mana_amount - ?) where civilization_id = ? "
             		+ "and food_amount >= ? "
             		+ "and mana_amount >= ? ";
@@ -120,6 +125,11 @@ public class UpdateSpecial {
 
 			
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_update);
+            
+			// Cerrar recursos
+            conn.close();
+
+            
 	    } catch (ClassNotFoundException e) {
 	
 			e.printStackTrace();

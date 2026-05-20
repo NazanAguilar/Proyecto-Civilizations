@@ -57,6 +57,10 @@ public class EndBattle {
 			
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_update_count);
 			
+            // Cerrar recursos
+            conn.close();
+
+            
 	    
 	    } catch (ClassNotFoundException e) {
 	
@@ -96,7 +100,10 @@ public class EndBattle {
 			ps_insert.executeUpdate();
 			
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_insert);
-			
+		
+            // Cerrar recursos
+            conn.close();
+
 	    } catch (ClassNotFoundException e) {
 	    	
 			e.printStackTrace();
@@ -134,7 +141,11 @@ public class EndBattle {
 			ps_insert.executeUpdate();
 
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_insert);
-			
+
+            // Cerrar recursos
+            conn.close();
+
+            
 	    } catch (ClassNotFoundException e) {
 	    	
 			e.printStackTrace();
@@ -173,6 +184,10 @@ public class EndBattle {
 			
 			System.out.println("Se ha realizado el update correctamente. \n"+ps_insert);
 			
+            // Cerrar recursos
+            conn.close();
+
+            
 	    } catch (ClassNotFoundException e) {
 	    	
 			e.printStackTrace();
@@ -214,6 +229,10 @@ public class EndBattle {
 			
 			ps_insert.executeUpdate();
 			
+            // Cerrar recursos
+            conn.close();
+
+            
 	    } catch (ClassNotFoundException e) {
 	    	
 			e.printStackTrace();
@@ -252,6 +271,10 @@ public class EndBattle {
 			
 			ps_insert.executeUpdate();
 			
+            // Cerrar recursos
+            conn.close();
+
+            
 	    } catch (ClassNotFoundException e) {
 	    	
 			e.printStackTrace();
