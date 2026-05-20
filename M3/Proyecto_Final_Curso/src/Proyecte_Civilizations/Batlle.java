@@ -562,6 +562,10 @@ class Battle implements Variables{
         int comienzo = (int)(Math.random() * 2) + 1;
         int ronda = 1;
         int numBat = StartBattle.loadNumBattle();
+        
+        //Creamos registros en BBDD para BattleStats para a continuación poder crear en la tabla de Logs sin entorpecer por las relaciones entre tablas
+        EndBattle.newBattle(1, numBat+1, 0, 0, 2);
+        EndBattle.newBattle(2, numBat+1, 0, 0, 1);
 
         battleDevelopment += "===== INICIO DE LA BATALLA =====\n";
 
@@ -808,6 +812,13 @@ class Battle implements Variables{
             battleDevelopment += "La civilización obtiene los residuos: "
                                  + wasteWoodIron[0] + " madera, "
                                  + wasteWoodIron[1] + " hierro.\n";
+            EndBattle.updateBattleStats(1, numBat+1, wasteWoodIron[0], wasteWoodIron[1]);
+            
+            String logAt5 = "GANADOR: Civilización (menos pérdidas de recursos).";
+            EndBattle.insertBattleLogs(1,numBat+1,logAt5,2);
+            String logAt6 = "La civilización obtiene los residuos: " + wasteWoodIron[0] + " madera, " + wasteWoodIron[1] + " hierro.";
+            EndBattle.insertBattleLogs(1,numBat+1,logAt6,2);
+            
             return wasteWoodIron;
         } 
         else if (perdidasEnemigo < perdidasCivilizacion) {
@@ -815,9 +826,21 @@ class Battle implements Variables{
             battleDevelopment += "El enemigo obtiene los residuos: "
                                  + wasteWoodIron[0] + " madera, "
                                  + wasteWoodIron[1] + " hierro.\n";
+            EndBattle.updateBattleStats(2, numBat+1, wasteWoodIron[0], wasteWoodIron[1]);
+            
+            String logEn5 = "GANADOR: Enemigo (menos pérdidas de recursos).";
+            EndBattle.insertBattleLogs(1,numBat+1,logEn5,2);
+            String logEn6 = "El enemigo obtiene los residuos: " + wasteWoodIron[0] + " madera, " + wasteWoodIron[1] + " hierro.";
+            EndBattle.insertBattleLogs(1,numBat+1,logEn6,2);
         } 
         else {
-            battleDevelopment += "EMPATE: Ambos ejércitos han perdido la misma cantidad de recurdod:\n";
+            battleDevelopment += "EMPATE: Ambos ejércitos han perdido la misma cantidad de recursod:\n";
+            
+            String logEmpate = "EMPATE: Ambos ejércitos han perdido la misma cantidad de recursos.";
+            EndBattle.insertBattleLogs(1,numBat+1,logEmpate,2);
+            EndBattle.insertBattleLogs(2,numBat+1,logEmpate,1);
+
+            
         }
         int[] lista = new int[2];
         return lista;
