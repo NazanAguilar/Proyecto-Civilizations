@@ -71,12 +71,12 @@ CREATE TABLE battle_stats (
 );
 -- Log de la batalla
 CREATE TABLE battle_log (
+    num_line INT NOT NULL AUTO_INCREMENT,
     civilization_id INT NOT NULL,
     id_battle INT NOT NULL,
-    num_line INT NOT NULL,
-    log_entry varchar(200),
-    civ_enem int,
-    PRIMARY KEY (civilization_id, id_battle, num_line),
+    log_entry VARCHAR(200),
+    civ_enem INT,
+    PRIMARY KEY (num_line),
     FOREIGN KEY (civilization_id, id_battle) REFERENCES battle_stats(civilization_id, id_battle) ON DELETE CASCADE
 );
 -- Stats de ataque de la civilización
