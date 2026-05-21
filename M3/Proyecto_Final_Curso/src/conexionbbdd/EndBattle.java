@@ -19,7 +19,7 @@ public class EndBattle {
 		
 
 	}
-	public static void finishBattle(int idCivi, int woodCount, int ironCount, int foodCount, int manaCount, int mTowerCounter, int churchCounter, int farmCounter, int smithyCounter, int carpentryCounter, int ataqueNivel, int defensaNivel  ) {
+	public static void finishBattle(int idCivi, int mTowerCounter, int churchCounter, int farmCounter, int smithyCounter, int carpentryCounter, int ataqueNivel, int defensaNivel  ) {
 			
 	    try {
 	
@@ -33,25 +33,20 @@ public class EndBattle {
 	
             // Update SQL, tras cada batalla sumamos 1 al contador de batallas
 	        String update_counter = "UPDATE civilization_stats "
-            		+ "SET wood_amount = ?, iron_amount = ?, food_amount = ?, mana_amount = ?, "
-	        		+ " magicTower_counter = ?, church_counter = ?, farm_counter = ?, smithy_counter = ?, carpentry_counter = ?, "
+            		+ "SET magicTower_counter = ?, church_counter = ?, farm_counter = ?, smithy_counter = ?, carpentry_counter = ?, "
             		+ " technology_attack_level = ?,  technology_defense_level = ?, "
             		+ " battles_counter = (battles_counter + 1) where civilization_id = ?";
             
 			PreparedStatement ps_update_count = conn.prepareStatement(update_counter,ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 			
-			ps_update_count.setInt(1,woodCount);
-			ps_update_count.setInt(2,ironCount);
-			ps_update_count.setInt(3,foodCount);
-			ps_update_count.setInt(4,manaCount);
-			ps_update_count.setInt(5,mTowerCounter);
-			ps_update_count.setInt(6,churchCounter);
-			ps_update_count.setInt(7,farmCounter);
-			ps_update_count.setInt(8,smithyCounter);
-			ps_update_count.setInt(9,carpentryCounter);
-			ps_update_count.setInt(10,ataqueNivel);
-			ps_update_count.setInt(11,defensaNivel);
-			ps_update_count.setInt(12,idCivi);
+			ps_update_count.setInt(1,mTowerCounter);
+			ps_update_count.setInt(2,churchCounter);
+			ps_update_count.setInt(3,farmCounter);
+			ps_update_count.setInt(4,smithyCounter);
+			ps_update_count.setInt(5,carpentryCounter);
+			ps_update_count.setInt(6,ataqueNivel);
+			ps_update_count.setInt(7,defensaNivel);
+			ps_update_count.setInt(8,idCivi);
 					
 			ps_update_count.executeUpdate();
 			
@@ -87,14 +82,14 @@ public class EndBattle {
 
 		// Insert SQL
 			String insert = "INSERT INTO attack_units_stats (civilization_id, type, armor, base_damage, experience, sanctified) "
-					+ " VALUES (?, ?, 0, ?, ?, false)";
+					+ " VALUES (?, ?, ?, ?, ?, false)";
 			
 			PreparedStatement ps_insert = conn.prepareStatement(insert,ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 	   
 			ps_insert.setInt(1, idCivi);
 			ps_insert.setString(2,tipo);
 			ps_insert.setInt(3,armor);
-			ps_insert.setInt(5,damage);
+			ps_insert.setInt(4,damage);
 			ps_insert.setInt(5,exp);
 
 			ps_insert.executeUpdate();
