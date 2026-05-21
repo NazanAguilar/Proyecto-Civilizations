@@ -14,6 +14,15 @@ import javax.swing.JOptionPane;
 import conexionbbdd.*;
 
 public class Civilization implements Variables{
+	private int contChurch;
+	private int contMagicTower;
+	private int contFarm;
+	private int contSmithy;
+	private int contCarpentry;
+	private int contTechnologyDefense;
+	private int contTechnologyAtack;
+	private ArrayList<MilitaryUnit>[] contArmy;
+	
 	private int technologyDefense ;
 	private int technologyAtack ;
 	private int wood;
@@ -50,6 +59,10 @@ public class Civilization implements Variables{
         for (int i = 0; i < army.length; i++) {
             army[i] = new ArrayList<MilitaryUnit>();
         }
+        contArmy = new ArrayList[9];
+        for (int i = 0; i < contArmy.length; i++) {
+            contArmy[i] = new ArrayList<MilitaryUnit>();
+        }
         
         startAutomaticBattles();
 	}
@@ -67,6 +80,7 @@ public class Civilization implements Variables{
 		    iron -= IRON_COST_CHURCH;
 		    wood -= WOOD_COST_CHURCH;
 		    mana -= MANA_COST_CHURCH;
+		    contChurch = church;
 		    UpdateBuildings.buyChurch();
 		}
 
@@ -85,6 +99,7 @@ public class Civilization implements Variables{
 		    food -= FOOD_COST_MAGICTOWER;
 		    iron -= IRON_COST_MAGICTOWER;
 		    wood -= WOOD_COST_MAGICTOWER;
+		    contMagicTower = magicTower;
 		    UpdateBuildings.buyMagicTower();
 		}
 	}
@@ -102,6 +117,7 @@ public class Civilization implements Variables{
 		    food -= FOOD_COST_FARM;
 		    iron -= IRON_COST_FARM;
 		    wood -= WOOD_COST_FARM;
+		    contFarm = farm;
 		    UpdateBuildings.buyFarm();
 		}
 	}
@@ -119,6 +135,7 @@ public class Civilization implements Variables{
 		    food -= FOOD_COST_CARPENTRY;
 		    iron -= IRON_COST_CARPENTRY;
 		    wood -= WOOD_COST_CARPENTRY;
+		    contCarpentry = carpentry;
 		    UpdateBuildings.buyCarpentry();
 		}
 	}
@@ -136,6 +153,7 @@ public class Civilization implements Variables{
 		    food -= FOOD_COST_SMITHY;
 		    iron -= IRON_COST_SMITHY;
 		    wood -= WOOD_COST_SMITHY;
+		    contSmithy = smithy;
 		    UpdateBuildings.buySmithy();
 		}
 	}
@@ -153,6 +171,7 @@ public class Civilization implements Variables{
 			technologyDefense +=1;
 			iron -= precioiron;
 			wood -= preciowood;
+			contTechnologyDefense = technologyDefense;
 			StartBattle.modifyLevel(1,"defensa");
 		}
 	}
@@ -170,6 +189,7 @@ public class Civilization implements Variables{
 			technologyAtack +=1;
 			iron -= precioiron;
 			wood -= preciowood;
+			contTechnologyAtack = technologyAtack;
 			StartBattle.modifyLevel(1,"ataque");
 		}
 	}
@@ -194,6 +214,8 @@ public class Civilization implements Variables{
 				wood -= WOOD_COST_SWORDSMAN;
 				iron -= IRON_COST_SWORDSMAN;
 				creados +=1;
+				contArmy[0].addAll(army[0]);
+				//EndBattle.insertAttack(1, "Swordsman", ARMOR_SWORDSMAN+(PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY*technologyDefense), BASE_DAMAGE_SWORDSMAN+(PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY*technologyAtack), 0);
 				UpdateAttack.buySwordsman();
 			}
 		}
@@ -225,6 +247,7 @@ public class Civilization implements Variables{
 				wood -= WOOD_COST_SPEARMAN;
 				iron -= IRON_COST_SPEARMAN;
 				creados +=1;
+				contArmy[1].addAll(army[1]);
 				UpdateAttack.buySpearman();
 			}
 		}
@@ -255,6 +278,7 @@ public class Civilization implements Variables{
 				wood -= WOOD_COST_CROSSBOW;
 				iron -= IRON_COST_CROSSBOW;
 				creados +=1;
+				contArmy[2].addAll(army[2]);
 				UpdateAttack.buyCrossbow();
 			}
 		}
@@ -285,6 +309,7 @@ public class Civilization implements Variables{
 				wood -= WOOD_COST_CANNON;
 				iron -= IRON_COST_CANNON;
 				creados +=1;
+				contArmy[3].addAll(army[3]);
 				UpdateAttack.buyCannon();
 			}
 		}
@@ -315,6 +340,7 @@ public class Civilization implements Variables{
 				wood -= WOOD_COST_ARROWTOWER;
 				iron -= IRON_COST_ARROWTOWER;
 				creados +=1;
+				contArmy[4].addAll(army[4]);
 				UpdateDefense.buyArrowTower();
 			}
 		}
@@ -345,6 +371,7 @@ public class Civilization implements Variables{
 			wood -= WOOD_COST_CATAPULT;
 			iron -= IRON_COST_CATAPULT;
 			creados +=1;
+			contArmy[5].addAll(army[5]);
 			UpdateDefense.buyCatapult();
 
 		}
@@ -386,6 +413,8 @@ public class Civilization implements Variables{
 	        iron -= IRON_COST_ROCKETLAUNCHERTOWER;
 
 	        creados++;
+	        contArmy[6].addAll(army[6]);
+
 	        UpdateDefense.buyArrowTower();
 	    }
 
@@ -418,6 +447,7 @@ public class Civilization implements Variables{
 			iron -= IRON_COST_SPEARMAN;
 			mana -= MANA_COST_MAGICIAN;
 			creados +=1;
+			contArmy[7].addAll(army[7]);			
 			UpdateSpecial.buyMagician();
 
 		}
@@ -463,6 +493,7 @@ public class Civilization implements Variables{
             iron -= IRON_COST_PRIEST;
             mana -= MANA_COST_PRIEST;
             creados++;
+            contArmy[8].addAll(army[8]);
             UpdateSpecial.buyPriest();
 	    }
 	    if (creados > 0) {
@@ -685,7 +716,8 @@ public class Civilization implements Variables{
 
 	    JScrollPane scroll = new JScrollPane(textArea);
 	    frame.add(scroll);
-
+	    
+	    EndBattle.finishBattle(1, contMagicTower, contChurch, contFarm, contSmithy, contCarpentry, contTechnologyAtack, contTechnologyDefense);
 	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    frame.setVisible(true);
 
@@ -697,7 +729,10 @@ public class Civilization implements Variables{
 	private void showThreatWindow(ArrayList<MilitaryUnit> enemyArmy) {
 
 	    JFrame frame = new JFrame("NEW THREAT COMING");
-
+	    int nuevo = 0;
+	    //recupero las globales y llamo al método
+	    nuevo = contChurch;
+	    
 	    frame.setSize(350, 250);
 	    frame.setLocationRelativeTo(null);
 	    frame.setResizable(false);
