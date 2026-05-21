@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  {{> header}}
+  <title>Civilizacion-Civilization(MNR)</title>
+</head>
+<body>
+  {{> menu}}
+
+  <main class="container">
+    <h1>Civilization (MNR)</h1>
+    <h2>Civilizacion</h2>
+
+    <p>Información actualitzada de la base de datos</p>
+
+    <div class="table-container">
+      <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Cantidad Madera</th>
+          <th>Cantidad Hierro</th>
+          <th>Cantidad Comida</th>
+          <th>Cantidad Mana</th>
+          <th>Contador Torre mágica</th>
+          <th>Contador Iglesia</th>
+          <th>Contador Granja</th>
+          <th>Contador Herreria</th>
+          <th>Contador Carpinteria</th>
+          <th>Nivel Defensa Tecnologica</th>
+          <th>Nivel Ataque Tecnologico</th>
+          <th>Contador Batallas</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each civilizacion}}
+          <tr>
+            <td>{{ID}}</td>
+            <td>{{Nombre}}</td>
+            <td>{{Cantidad_madera}}</td>
+            <td>{{Cantidad_hierro}}</td>
+            <td>{{Cantidad_comida}}</td>
+            <td>{{Cantidad_mana}}</td>
+            <td>{{Contador_torre_magica}}</td>
+            <td>{{Contador_iglesia}}</td>
+            <td>{{Contador_granja}}</td>
+            <td>{{Contador_herreria}}</td>
+            <td>{{Contador_carpinteria}}</td>
+            <td>{{Nivel_defensa_tecnologica}}</td>
+            <td>{{Nivel_ataque_tecnologico}}</td>
+            <td>{{Contador_batallas}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    </div>
+  </main>
+
+  {{> footer}}
+</body>
+</html>

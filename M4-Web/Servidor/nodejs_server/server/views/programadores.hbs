@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  {{> header}}
+  <title>Programadores-Civilization(MNR)</title>
+</head>
+<body>
+  {{> menu}}
+
+  <main class="container">
+    <h1>Civilization (MNR)</h1>
+    <h2>Programadores</h2>
+    <div class="programadores">
+    | 
+        {{#each programadores}}
+          {{nombre}}
+          {{apellido}} |
+          </tr>
+        {{/each}}
+    </div>
+  </main>
+
+  {{> footer}}
+</body>
+</html>

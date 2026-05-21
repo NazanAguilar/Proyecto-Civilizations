@@ -1,0 +1,7 @@
+{
+  "programadores": [
+    { "nombre": "Mohamed", "apellido": "Adghir" },
+    { "nombre": "Nazan", "apellido": "Aguilar" },
+    { "nombre": "Raul", "apellido": "Trollano" }
+  ]
+}
