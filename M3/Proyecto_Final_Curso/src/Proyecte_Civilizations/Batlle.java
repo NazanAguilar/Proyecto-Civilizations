@@ -829,9 +829,9 @@ class Battle implements Variables{
             EndBattle.updateBattleStats(2, numBat+1, wasteWoodIron[0], wasteWoodIron[1]);
             
             String logEn5 = "GANADOR: Enemigo (menos pérdidas de recursos).";
-            EndBattle.insertBattleLogs(1,numBat+1,logEn5,2);
+            EndBattle.insertBattleLogs(2,numBat+1,logEn5,1);
             String logEn6 = "El enemigo obtiene los residuos: " + wasteWoodIron[0] + " madera, " + wasteWoodIron[1] + " hierro.";
-            EndBattle.insertBattleLogs(1,numBat+1,logEn6,2);
+            EndBattle.insertBattleLogs(2,numBat+1,logEn6,1);
         } 
         else {
             battleDevelopment += "EMPATE: Ambos ejércitos han perdido la misma cantidad de recursod:\n";
