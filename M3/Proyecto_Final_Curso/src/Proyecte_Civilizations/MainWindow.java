@@ -14,7 +14,7 @@ public class MainWindow extends JFrame {
     {
         this.civ = civ;
 
-        setTitle("Civilizations - Kai Edition");
+        setTitle("Civilizations - Proyecte");
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -554,7 +554,6 @@ class WindowTecnologia extends JFrame {
          civ.getTechDefenseWoodCost() + " Wood</html>"
      );
 
-     // Apply Medieval Gold theme
      styleTechButton(atk);
      styleTechButton(def);
 

@@ -803,7 +803,7 @@ class Battle implements Variables{
         battleDevelopment += "Bonus de experiencia aplicado a todas las unidades vivas.\n";
 
         updateResourcesLooses();
-
+        //Ver que lado a tenido menos perdidas para saber quien es el ganados
         int perdidasCivilizacion = resourceLooses[0][3];
         int perdidasEnemigo = resourceLooses[1][3];
 

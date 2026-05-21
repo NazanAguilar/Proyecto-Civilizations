@@ -1,14 +1,13 @@
 package Proyecte_Civilizations;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
+
 
 import javax.swing.JOptionPane;
 import conexionbbdd.*;
@@ -554,7 +553,8 @@ public class Civilization implements Variables{
     private void resumeAllTimers() {
         timersPaused = false;
     }
-
+    
+    //Metodo para que las peleas ocurran 
 	private void startAutomaticBattles() {
 
 	    battleTimer = new Timer();
@@ -622,6 +622,7 @@ public class Civilization implements Variables{
 	    return completeArmy;
 	}
 	
+	//Creacion de enemigos
 	private ArrayList<MilitaryUnit> generateBalancedEnemyArmy(int playerUnits) {
 
 	    ArrayList<MilitaryUnit> enemyArmy = new ArrayList<>();
@@ -690,6 +691,7 @@ public class Civilization implements Variables{
 	    return enemyArmy;
 	}
 	
+	//Ventana que enseña el desarrolo de la pelea
 	private void showBattleWindow(String development, String report) {
 
 	    JFrame frame = new JFrame("BATALLA EN CURSO");
@@ -726,6 +728,7 @@ public class Civilization implements Variables{
 	    }
 	}
 
+	//Ventana que enseña los enemigos
 	private void showThreatWindow(ArrayList<MilitaryUnit> enemyArmy) {
 
 	    JFrame frame = new JFrame("NEW THREAT COMING");
@@ -748,10 +751,18 @@ public class Civilization implements Variables{
 	    int swords = 0, spears = 0, cross = 0, cannons = 0;
 
 	    for (MilitaryUnit u : enemyArmy) {
-	        if (u instanceof Swordsam) swords++;
-	        if (u instanceof Spearman) spears++;
-	        if (u instanceof Crossbow) cross++;
-	        if (u instanceof Cannon) cannons++;
+	        if (u instanceof Swordsam) { 
+	        	swords++;
+	        }
+	        if (u instanceof Spearman) {
+	        	spears++;
+	        }
+	        if (u instanceof Crossbow) { 
+	        	cross++;
+	        }
+	        if (u instanceof Cannon) { 
+	        	cannons++;
+	        }
 	    }
 
 	    String msg = "   NEW THREAT COMING\n\n" +
@@ -994,6 +1005,8 @@ public class Civilization implements Variables{
                UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST * technologyAtack;
     }
     
+    
+    //Para la producion de comida,hiero,madera,mana
     public void startResourceTimer(TopPanel topPanel) 
     {
         Timer timer = new Timer();
@@ -1001,7 +1014,7 @@ public class Civilization implements Variables{
         TimerTask task = new TimerTask() {
         	public void run() {
 
-        	    if (timersPaused) return; // ⛔ DETIENE GENERACIÓN
+        	    if (timersPaused) return; 
 
         	    int baseFood = CIVILIZATION_FOOD_GENERATED;
         	    int baseWood = CIVILIZATION_WOOD_GENERATED;
